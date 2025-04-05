@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Your Budgeting Goals!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .side-image {
+            width: 200px;
+            background-size: cover;
+            background-position: center;
+            position: fixed;
+            height: 100vh;
+        }
+
+        .left-image {
+            left: 0;
+            background-image: url('https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-4.0.3');
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
+        }
+
+        .right-image {
+            right: 0;
+            background-image: url('https://images.unsplash.com/photo-1621761191319-c6fb62004040?ixlib=rb-4.0.3');
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            background-blend-mode: overlay;
+        }
+
+        .main-content {
+            flex: 1;
+            margin: 0 200px;
+            padding: 2rem;
+            background-color: #feb4ff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .content-section {
+            padding: 2rem 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #34495e;
+            line-height: 1.6;
+        }
+
+        /* Budget Calculator Styles */
+        .budget-form {
+            background: #feb4ff;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .budget-form h3 {
+            color: #2c3e50;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.5rem;
+        }
+
+        .budget-form label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #34495e;
+        }
+
+        .budget-form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .budget-form button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .budget-form button:hover {
+            background-color: #2980b9;
+        }
+
+        .interests-section {
+            margin-top: 2rem;
+        }
+
+        .interests-section label {
+            display: inline-block;
+            margin: 5px 10px 5px 0;
+        }
+
+        #summary {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .ad-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .ad-subtext {
+            font-size: 1rem;
+            margin: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 1200px) {
+            .side-image {
+                width: 150px;
+            }
+            .main-content {
+                margin: 0 150px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .side-image {
+                display: none;
+            }
+            .main-content {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="side-image left-image">
+        <div class="ad-text">Save More, Live Better</div>
+        <div class="ad-subtext">Smart banking solutions for your future</div>
+    </div>
+    
+    <main class="main-content">
+        <header>
+            <h1>Start Your Budgeting Goals!</h1>
+            <p class="subtitle">Your Financial Planning Partner</p>
+        </header>
+
+        <section class="content-section">
+            <div class="budget-form">
+                <h3>Budget Calculator for the Month</h3>
+                <form id="budgetForm">
+                    <h3>Income</h3>
+                    <label for="income">Total Income: $</label>
+                    <input type="number" id="income" name="income" step="0.01">
+
+                    <h3>Expenses</h3>
+                    <label for="rent">Rent: $</label>
+                    <input type="number" id="rent" name="rent" step="0.01">
+
+                    <label for="food">Food: $</label>
+                    <input type="number" id="food" name="food" step="0.01">
+
+                    <label for="entertainment">Entertainment: $</label>
+                    <input type="number" id="entertainment" name="entertainment" step="0.01">
+
+                    <label for="transport">Transport: $</label>
+                    <input type="number" id="transport" name="transport" step="0.01">
+
+                    <label for="retirement">Retirement: $</label>
+                    <input type="number" id="retirement" name="retirement" step="0.01">
+
+                    <label for="saving">Saving: $</label>
+                    <input type="number" id="saving" name="saving" step="0.01">
+
+                    <label for="other">Other: $</label>
+                    <input type="number" id="other" name="other" step="0.01">
+
+                    <button type="button" onclick="calculateBudget()">Calculate Budget</button>
+                </form>
+
+                <div class="interests-section">
+                    <h3>Select Your Interests</h3>
+                    <form id="interests-form">
+                        <label><input type="checkbox" name="interests" value="furniture"> Furniture</label>
+                        <label><input type="checkbox" name="interests" value="food"> Food</label>
+                        <label><input type="checkbox" name="interests" value="costumes"> Costumes</label>
+                        <label><input type="checkbox" name="interests" value="technology"> Technology</label>
+                        <label><input type="checkbox" name="interests" value="music"> Music</label>
+                        <label><input type="checkbox" name="interests" value="gaming"> Gaming</label>
+                        <label><input type="checkbox" name="interests" value="sports"> Sports</label>
+                        <label><input type="checkbox" name="interests" value="travel"> Travel</label>
+                        <label><input type="checkbox" name="interests" value="reading"> Reading</label>
+                        <label><input type="checkbox" name="interests" value="pets"> Pets</label>
+                        <br><br>
+                        <button type="button" onclick="showInterests()">Submit Interests</button>
+                    </form>
+                </div>
+
+                <div id="summary">Fill in the values and click "Calculate Budget".</div>
+            </div>
+        </section>
+    </main>
+
+    <div class="side-image right-image">
+        <div class="ad-text">Invest in Your Future</div>
+        <div class="ad-subtext">Expert financial guidance at your fingertips</div>
+    </div>
+
+    <script>
+        function calculateBudget() {
+            const income = parseFloat(document.getElementById('income').value) || 0;
+            const rent = parseFloat(document.getElementById('rent').value) || 0;
+            const food = parseFloat(document.getElementById('food').value) || 0;
+            const entertainment = parseFloat(document.getElementById('entertainment').value) || 0;
+            const transport = parseFloat(document.getElementById('transport').value) || 0;
+            const retirement = parseFloat(document.getElementById('retirement').value) || 0;
+            const saving = parseFloat(document.getElementById('saving').value) || 0;
+            const other = parseFloat(document.getElementById('other').value) || 0;
+
+            const totalExpenses = rent + food + entertainment + transport + retirement + saving + other;
+            const remaining = income - totalExpenses;
+
+            document.getElementById('summary').textContent = `
+                Total Expenses: $${totalExpenses.toFixed(2)} | 
+                Remaining Budget: $${remaining.toFixed(2)}
+            `;
+        }
+
+        function showInterests() {
+            const checkboxes = document.querySelectorAll('input[name="interests"]:checked');
+            const selected = Array.from(checkboxes).map(cb => cb.value);
+            alert("Your selected interests are: " + selected.join(", "));
+        }
+    </script>
+</body>
+</html> 
