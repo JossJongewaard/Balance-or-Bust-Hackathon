@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Recap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #4C9B8C; /* Darker Green background */
+            background-image: url('logo.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            color: #555; /* Grey text color */
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: rgba(168, 230, 207, 0.9); /* Mint Green with transparency */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            border-bottom: 2px solid #4C9B8C; /* Darker Green border */
+            position: relative;
+            background-color: #A8E6CF; /* Mint Green background */
+        }
+
+        h1 {
+            color: #2c3e50; /* Dark Grey text */
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #555; /* Grey text */
+            font-size: 1.2rem;
+        }
+
+        /* Back Button Styles */
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(145deg, #66BB6A, #388E3C); /* Light Green Gradient */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            background: linear-gradient(145deg, #388E3C, #66BB6A); /* Reversed gradient on hover */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-50%) translateX(-5px);
+        }
+
+        /* Logo Styles */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            max-width: 150px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            padding: 2rem 0;
+        }
+
+        .recap-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .recap-card {
+            background: #A8E6CF; /* Mint Green background */
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .recap-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            background-color: #4C9B8C; /* Darker Green background */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .recap-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(76, 155, 140, 0.3);
+        }
+
+        .recap-item:last-child {
+            border-bottom: none;
+        }
+
+        .recap-label {
+            color: #555; /* Grey text */
+            font-weight: 500;
+        }
+
+        .recap-value {
+            color: #2c3e50; /* Dark Grey text */
+            font-weight: bold;
+        }
+
+        .summary-card {
+            background: #A8E6CF; /* Mint Green background */
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .summary-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            background-color: #4C9B8C; /* Darker Green background */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .summary-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(76, 155, 140, 0.3);
+        }
+
+        .summary-content:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: #555; /* Grey text */
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .summary-value {
+            color: #2c3e50; /* Dark Grey text */
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .positive {
+            color: #388E3C; /* Green for positive values */
+        }
+
+        .negative {
+            color: #d32f2f; /* Red for negative values */
+        }
+
+        .interests-card {
+            background: #A8E6CF; /* Mint Green background */
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .interests-card h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            background-color: #4C9B8C; /* Darker Green background */
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .interests-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .interest-tag {
+            background: rgba(76, 155, 140, 0.2);
+            color: #2c3e50;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Navigation Buttons Container */
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 2rem;
+            padding: 1rem;
+        }
+
+        .nav-button {
+            background: linear-gradient(145deg, #66BB6A, #388E3C); /* Light Green Gradient */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(145deg, #388E3C, #66BB6A); /* Reversed gradient on hover */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Terms and Services Acceptance */
+        .terms-acceptance {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 8px;
+            color: rgba(85, 85, 85, 0.3); /* Very light grey, almost transparent */
+        }
+
+        .terms-acceptance a {
+            color: rgba(76, 155, 140, 0.3); /* Very light green, almost transparent */
+            text-decoration: none;
+        }
+
+        .terms-acceptance a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+            .recap-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="main-content">
+        <header>
+            <a href="budget_calculator.html" class="back-button">← Back</a>
+            <div class="logo-container">
+                <img src="logo.png" alt="Budget App Logo" class="logo">
+            </div>
+            <h1>Budget Recap</h1>
+            <p class="subtitle" id="user-name">Your Financial Summary</p>
+        </header>
+
+        <section class="content-section">
+            <!-- Income and Expenses Summary -->
+            <div class="recap-container">
+                <div class="recap-card">
+                    <h3>Income</h3>
+                    <div class="recap-item">
+                        <span class="recap-label">Total Income</span>
+                        <span class="recap-value" id="income-value">$0.00</span>
+                    </div>
+                </div>
+                
+                <div class="recap-card">
+                    <h3>Expenses</h3>
+                    <div class="recap-item">
+                        <span class="recap-label">Rent</span>
+                        <span class="recap-value" id="rent-value">$0.00</span>
+                    </div>
+                    <div class="recap-item">
+                        <span class="recap-label">Food</span>
+                        <span class="recap-value" id="food-value">$0.00</span>
+                    </div>
+                    <div class="recap-item">
+                        <span class="recap-label">Entertainment</span>
+                        <span class="recap-value" id="entertainment-value">$0.00</span>
+                    </div>
+                    <div class="recap-item">
+                        <span class="recap-label">Car Payments</span>
+                        <span class="recap-value" id="transport-value">$0.00</span>
+                    </div>
+                    <div class="recap-item">
+                        <span class="recap-label">Saving</span>
+                        <span class="recap-value" id="saving-value">$0.00</span>
+                    </div>
+                    <div class="recap-item">
+                        <span class="recap-label">Other</span>
+                        <span class="recap-value" id="other-value">$0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assets Section -->
+            <div class="recap-card">
+                <h3>Assets</h3>
+                <div class="recap-item">
+                    <span class="recap-label">Checking Account</span>
+                    <span class="recap-value" id="checking-value">$0.00</span>
+                </div>
+                <div class="recap-item">
+                    <span class="recap-label">Savings Account</span>
+                    <span class="recap-value" id="savings-value">$0.00</span>
+                </div>
+                <div class="recap-item">
+                    <span class="recap-label">Stocks</span>
+                    <span class="recap-value" id="stocks-value">$0.00</span>
+                </div>
+                <div class="recap-item">
+                    <span class="recap-label">Property</span>
+                    <span class="recap-value" id="property-value">$0.00</span>
+                </div>
+            </div>
+
+            <!-- Overall Summary -->
+            <div class="summary-card">
+                <h3>Overall Summary</h3>
+                <div class="summary-content">
+                    <span class="summary-label">Total Expenses</span>
+                    <span class="summary-value" id="total-expenses">$0.00</span>
+                </div>
+                <div class="summary-content">
+                    <span class="summary-label">Bust Purchases</span>
+                    <span class="summary-value negative" id="bust-purchases">$0.00</span>
+                </div>
+                <div class="summary-content">
+                    <span class="summary-label">Remaining Budget</span>
+                    <span class="summary-value" id="remaining-budget">$0.00</span>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons">
+                <button class="nav-button" id="ready-to-bust-btn">Ready to Bust?</button>
+            </div>
+            
+            <!-- Terms and Services Acceptance -->
+            <div class="terms-acceptance">
+                <p>By clicking the button above, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Get user data from localStorage
+        const userData = JSON.parse(localStorage.getItem('userData')) || {};
+        const firstName = userData.firstName || 'User';
+        const lastName = userData.lastName || '';
+
+        // Display user's name
+        document.getElementById('user-name').textContent = `${firstName} ${lastName}`;
+
+        // Get budget data from localStorage
+        const budgetData = JSON.parse(localStorage.getItem('budgetData')) || {};
+        
+        // Function to format currency with commas and two decimal places
+        function formatCurrency(value) {
+            return `$${parseFloat(value || 0).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        }
+        
+        // Update all the values with budget data
+        document.getElementById('income-value').textContent = formatCurrency(budgetData.income);
+        document.getElementById('rent-value').textContent = formatCurrency(budgetData.rent);
+        document.getElementById('food-value').textContent = formatCurrency(budgetData.food);
+        document.getElementById('entertainment-value').textContent = formatCurrency(budgetData.entertainment);
+        document.getElementById('transport-value').textContent = formatCurrency(budgetData.transport);
+        document.getElementById('saving-value').textContent = formatCurrency(budgetData.saving);
+        document.getElementById('other-value').textContent = formatCurrency(budgetData.other);
+        document.getElementById('checking-value').textContent = formatCurrency(budgetData.checking);
+        document.getElementById('savings-value').textContent = formatCurrency(budgetData.savings);
+        document.getElementById('stocks-value').textContent = formatCurrency(budgetData.stocks);
+        document.getElementById('property-value').textContent = formatCurrency(budgetData.property);
+
+        // Calculate and update total expenses
+        const totalExpenses = (
+            (parseFloat(budgetData.rent) || 0) +
+            (parseFloat(budgetData.food) || 0) +
+            (parseFloat(budgetData.entertainment) || 0) +
+            (parseFloat(budgetData.transport) || 0) +
+            (parseFloat(budgetData.saving) || 0) +
+            (parseFloat(budgetData.other) || 0)
+        );
+        document.getElementById('total-expenses').textContent = formatCurrency(totalExpenses);
+
+        // Get bust purchases from budget data
+        const bustPurchases = parseFloat(budgetData.bustPurchases) || 0;
+        document.getElementById('bust-purchases').textContent = formatCurrency(bustPurchases);
+
+        // Check if there's an updated balance from the bust page
+        const updatedBalance = parseFloat(budgetData.updatedBalance);
+        if (!isNaN(updatedBalance)) {
+            // Calculate the original total (income + assets)
+            const originalTotal = (
+                (parseFloat(budgetData.income) || 0) +
+                (parseFloat(budgetData.checking) || 0) +
+                (parseFloat(budgetData.savings) || 0) +
+                (parseFloat(budgetData.stocks) || 0) +
+                (parseFloat(budgetData.property) || 0)
+            );
+            
+            // Calculate bust purchases as the difference between original total and updated balance
+            const newBustPurchases = originalTotal - updatedBalance;
+            
+            // Update the bust purchases display
+            document.getElementById('bust-purchases').textContent = formatCurrency(newBustPurchases);
+            
+            // Update the budget data with the new bust purchases
+            budgetData.bustPurchases = newBustPurchases;
+            localStorage.setItem('budgetData', JSON.stringify(budgetData));
+            
+            // Recalculate remaining budget with the new bust purchases
+            const remainingBudget = (parseFloat(budgetData.income) || 0) - totalExpenses - newBustPurchases;
+            document.getElementById('remaining-budget').textContent = formatCurrency(remainingBudget);
+        } else {
+            // Calculate and update remaining budget (including bust purchases)
+            const remainingBudget = (parseFloat(budgetData.income) || 0) - totalExpenses - bustPurchases;
+            document.getElementById('remaining-budget').textContent = formatCurrency(remainingBudget);
+        }
+
+        // Add event listener to the "Ready to Bust?" button
+        document.getElementById('ready-to-bust-btn').addEventListener('click', function() {
+            // Navigate to the bust page
+            window.location.href = 'bust.html';
+        });
+    </script>
+</body>
+</html> 

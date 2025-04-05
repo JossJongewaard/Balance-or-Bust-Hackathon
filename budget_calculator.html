@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Your Budgeting Goals!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #4C9B8C; /* Darker Green background */
+            background-image: url('logo.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+            color: #555; /* Grey text color */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            background-color: rgba(168, 230, 207, 0.9); /* Mint Green with transparency */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            padding: 1.5rem 0;
+            border-bottom: 2px solid #4C9B8C; /* Darker Green border */
+            position: relative;
+            background-color: #A8E6CF; /* Mint Green background */
+        }
+
+        h1 {
+            color: #2c3e50; /* Dark Grey text */
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center; /* Ensure the title is centered */
+        }
+
+        .subtitle {
+            color: #555; /* Grey text */
+            font-size: 1.2rem;
+        }
+
+        /* Back Button Styles */
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(145deg, #66BB6A, #388E3C); /* Light Green Gradient */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            background: linear-gradient(145deg, #388E3C, #66BB6A); /* Reversed gradient on hover */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-50%) translateX(-5px);
+        }
+
+        /* Logo Styles */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .logo {
+            max-width: 150px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin: 10px;
+            color: #555; /* Grey text */
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: rgba(76, 155, 140, 0.2); /* Darker Green with transparency */
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(76, 155, 140, 0.4); /* Darker Green with more opacity */
+        }
+
+        .content-section {
+            padding: 1.5rem 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .budget-form {
+            background: #A8E6CF; /* Mint Green background */
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .budget-form h3 {
+            color: #2c3e50; /* Dark Grey text */
+            margin: 1rem 0 0.75rem 0;
+            font-size: 1.4rem;
+            background-color: #4C9B8C; /* Darker Green background */
+            padding: 8px;
+            border-radius: 5px;
+            color: white;
+            text-align: left; /* Default left alignment for all h3 */
+        }
+
+        /* Specific style for the Budget Calculator title */
+        .budget-form h3:first-of-type {
+            text-align: center; /* Center only the first h3 (Budget Calculator) */
+            display: inline-block; /* Make the element fit its content */
+            padding: 10px 20px; /* Add horizontal padding */
+            margin-left: 50%; /* Center the element */
+            transform: translateX(-50%); /* Adjust for perfect centering */
+        }
+
+        /* Specific style for the Income title */
+        .budget-form form h3:first-of-type {
+            text-align: left;
+            display: block;
+            width: 100%;
+            margin-left: 0;
+            transform: none;
+            background-color: #4C9B8C; /* Darker Green background */
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        /* Specific style for the Expenses title */
+        .budget-form form h3:nth-of-type(2) {
+            text-align: left;
+            display: block;
+            width: 100%;
+            margin-left: 0;
+            transform: none;
+            background-color: #4C9B8C; /* Darker Green background */
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+        }
+
+        /* Specific style for the Select Your Interests title */
+        .interests-section h3 {
+            text-align: left;
+            display: block;
+            width: 100%;
+            margin-left: 0;
+            transform: none;
+        }
+
+        .budget-form label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555; /* Grey text */
+        }
+
+        .budget-form input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #4C9B8C; /* Darker Green border */
+            border-radius: 5px;
+            font-size: 1rem;
+            background: white;
+            color: #555; /* Grey text */
+        }
+
+        .budget-form input[type="number"]:focus {
+            outline: none;
+            border-color: #4C9B8C; /* Darker Green focus border */
+            box-shadow: 0 0 5px rgba(76, 155, 140, 0.5);
+        }
+
+        .budget-form input[type="number"]::placeholder {
+            color: #999; /* Light grey placeholder */
+        }
+
+        .budget-form button {
+            background: linear-gradient(145deg, #66BB6A, #388E3C); /* Light Green Gradient */
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .budget-form button:hover {
+            background: linear-gradient(145deg, #388E3C, #66BB6A); /* Reversed gradient on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .interests-section {
+            margin-top: 1.5rem;
+            background-color: #A8E6CF; /* Mint Green background */
+            padding: 1.25rem;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .interests-section label {
+            display: inline-block;
+            margin: 4px 8px 4px 0;
+            color: #555; /* Grey text */
+        }
+
+        #summary {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f8f9fa; /* Light Grey background */
+            border-radius: 5px;
+            font-weight: bold;
+            color: #2c3e50; /* Dark Grey text */
+        }
+
+        /* Navigation Buttons Container */
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 1.5rem;
+            padding: 0.75rem;
+        }
+
+        .nav-button {
+            background: linear-gradient(145deg, #66BB6A, #388E3C); /* Light Green Gradient */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(145deg, #388E3C, #66BB6A); /* Reversed gradient on hover */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .budget-form {
+                padding: 1rem;
+            }
+            
+            .interests-section {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .budget-form h3 {
+                font-size: 1.2rem;
+                padding: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="main-content">
+        <header>
+            <a href="welcome.html" class="back-button">← Back</a>
+            <div class="logo-container">
+                <img src="logo.png" alt="Budget App Logo" class="logo">
+            </div>
+            <h1>Start Your Budgeting Goals!</h1>
+            <p class="subtitle" id="user-name">Welcome!</p>
+        </header>
+
+        <section class="content-section">
+            <div class="budget-form">
+                <h3>Monthly Budget Calculator</h3>
+                <form id="budgetForm">
+                    <h3>Income</h3>
+                    <label for="income">Total Income: $</label>
+                    <input type="number" id="income" name="income" step="0.01">
+
+                    <h3>Expenses</h3>
+                    <label for="rent">Rent: $</label>
+                    <input type="number" id="rent" name="rent" step="0.01">
+
+                    <label for="food">Food: $</label>
+                    <input type="number" id="food" name="food" step="0.01">
+
+                    <label for="entertainment">Entertainment: $</label>
+                    <input type="number" id="entertainment" name="entertainment" step="0.01">
+
+                    <label for="transport">Car Payments: $</label>
+                    <input type="number" id="transport" name="transport" step="0.01">
+
+                    <label for="saving">Saving: $</label>
+                    <input type="number" id="saving" name="saving" step="0.01">
+
+                    <label for="other">Other: $</label>
+                    <input type="number" id="other" name="other" step="0.01">
+                </form>
+
+                <div class="interests-section">
+                    <h3>Assets</h3>
+                    <form id="assets-form">
+                        <label for="checking">Checking Account: $</label>
+                        <input type="number" id="checking" name="checking" step="0.01">
+
+                        <label for="savings">Savings Account: $</label>
+                        <input type="number" id="savings" name="savings" step="0.01">
+
+                        <label for="stocks">Stocks: $</label>
+                        <input type="number" id="stocks" name="stocks" step="0.01">
+
+                        <label for="property">Property: $</label>
+                        <input type="number" id="property" name="property" step="0.01">
+                    </form>
+                </div>
+
+                <div class="interests-section">
+                    <h3>Select Your Interests</h3>
+                    <form id="interests-form">
+                        <label><input type="checkbox" name="interests" value="furniture"> Furniture</label>
+                        <label><input type="checkbox" name="interests" value="food"> Food</label>
+                        <label><input type="checkbox" name="interests" value="costumes"> Costumes</label>
+                        <label><input type="checkbox" name="interests" value="technology"> Technology</label>
+                        <label><input type="checkbox" name="interests" value="music"> Music</label>
+                        <label><input type="checkbox" name="interests" value="gaming"> Gaming</label>
+                        <label><input type="checkbox" name="interests" value="sports"> Sports</label>
+                        <label><input type="checkbox" name="interests" value="travel"> Travel</label>
+                        <label><input type="checkbox" name="interests" value="reading"> Reading</label>
+                        <label><input type="checkbox" name="interests" value="pets"> Pets</label>
+                        <br><br>
+                        <button type="button" onclick="showInterests()">Submit Interests</button>
+                    </form>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation-buttons">
+                    <button class="nav-button" onclick="saveAllAndNavigate()">Next Page →</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function calculateBudget() {
+            const income = parseFloat(document.getElementById('income').value) || 0;
+            const rent = parseFloat(document.getElementById('rent').value) || 0;
+            const food = parseFloat(document.getElementById('food').value) || 0;
+            const entertainment = parseFloat(document.getElementById('entertainment').value) || 0;
+            const transport = parseFloat(document.getElementById('transport').value) || 0;
+            const saving = parseFloat(document.getElementById('saving').value) || 0;
+            const other = parseFloat(document.getElementById('other').value) || 0;
+
+            const totalExpenses = rent + food + entertainment + transport + saving + other;
+            const remaining = income - totalExpenses;
+
+            // Save data to localStorage as individual items
+            localStorage.setItem('income', income);
+            localStorage.setItem('rent', rent);
+            localStorage.setItem('food', food);
+            localStorage.setItem('entertainment', entertainment);
+            localStorage.setItem('transport', transport);
+            localStorage.setItem('saving', saving);
+            localStorage.setItem('other', other);
+            
+            // Also save as a budgetData object for the balance mode page
+            const budgetData = {
+                income: income,
+                rent: rent,
+                food: food,
+                entertainment: entertainment,
+                transport: transport,
+                saving: saving,
+                other: other,
+                totalExpenses: totalExpenses,
+                remainingBudget: remaining
+            };
+            
+            localStorage.setItem('budgetData', JSON.stringify(budgetData));
+        }
+
+        function saveAssets() {
+            const checking = parseFloat(document.getElementById('checking').value) || 0;
+            const savings = parseFloat(document.getElementById('savings').value) || 0;
+            const stocks = parseFloat(document.getElementById('stocks').value) || 0;
+            const property = parseFloat(document.getElementById('property').value) || 0;
+
+            // Save asset data to localStorage as individual items
+            localStorage.setItem('checking', checking);
+            localStorage.setItem('savings', savings);
+            localStorage.setItem('stocks', stocks);
+            localStorage.setItem('property', property);
+            
+            // Also update the budgetData object with asset information
+            const budgetData = JSON.parse(localStorage.getItem('budgetData')) || {};
+            budgetData.checking = checking;
+            budgetData.savings = savings;
+            budgetData.stocks = stocks;
+            budgetData.property = property;
+            
+            // Calculate total assets
+            const totalAssets = checking + savings + stocks + property;
+            budgetData.totalAssets = totalAssets;
+            
+            // Calculate net worth (income - expenses + assets)
+            const income = parseFloat(document.getElementById('income').value) || 0;
+            const totalExpenses = parseFloat(document.getElementById('rent').value) || 0 +
+                                 parseFloat(document.getElementById('food').value) || 0 +
+                                 parseFloat(document.getElementById('entertainment').value) || 0 +
+                                 parseFloat(document.getElementById('transport').value) || 0 +
+                                 parseFloat(document.getElementById('saving').value) || 0 +
+                                 parseFloat(document.getElementById('other').value) || 0;
+            
+            budgetData.netWorth = income - totalExpenses + totalAssets;
+            
+            localStorage.setItem('budgetData', JSON.stringify(budgetData));
+        }
+
+        function showInterests() {
+            const checkboxes = document.querySelectorAll('input[name="interests"]:checked');
+            const selected = Array.from(checkboxes).map(cb => cb.value);
+            alert("Your selected interests are: " + selected.join(", "));
+            
+            // Save interests to localStorage
+            localStorage.setItem('interests', JSON.stringify(selected));
+        }
+        
+        // Function to save all data and navigate to the next page
+        function saveAllAndNavigate() {
+            // Save budget data
+            calculateBudget();
+            
+            // Save assets data
+            saveAssets();
+            
+            // Save interests if any are selected
+            const checkboxes = document.querySelectorAll('input[name="interests"]:checked');
+            if (checkboxes.length > 0) {
+                const selected = Array.from(checkboxes).map(cb => cb.value);
+                localStorage.setItem('interests', JSON.stringify(selected));
+            }
+            
+            // Navigate to the balance mode page
+            window.location.href = 'balance_mode.html';
+        }
+        
+        // Load saved data when page loads
+        window.onload = function() {
+            // Get user's name from localStorage
+            const firstName = localStorage.getItem('firstName') || '';
+            const lastName = localStorage.getItem('lastName') || '';
+            
+            // Update the subtitle with the user's name
+            if (firstName && lastName) {
+                document.getElementById('user-name').textContent = `Welcome, ${firstName} ${lastName}!`;
+            }
+            
+            // Load income and expenses
+            document.getElementById('income').value = localStorage.getItem('income') || '';
+            document.getElementById('rent').value = localStorage.getItem('rent') || '';
+            document.getElementById('food').value = localStorage.getItem('food') || '';
+            document.getElementById('entertainment').value = localStorage.getItem('entertainment') || '';
+            document.getElementById('transport').value = localStorage.getItem('transport') || '';
+            document.getElementById('saving').value = localStorage.getItem('saving') || '';
+            document.getElementById('other').value = localStorage.getItem('other') || '';
+            
+            // Load assets
+            document.getElementById('checking').value = localStorage.getItem('checking') || '';
+            document.getElementById('savings').value = localStorage.getItem('savings') || '';
+            document.getElementById('stocks').value = localStorage.getItem('stocks') || '';
+            document.getElementById('property').value = localStorage.getItem('property') || '';
+            
+            // Load interests
+            const savedInterests = JSON.parse(localStorage.getItem('interests')) || [];
+            const checkboxes = document.querySelectorAll('input[name="interests"]');
+            
+            checkboxes.forEach(checkbox => {
+                if (savedInterests.includes(checkbox.value)) {
+                    checkbox.checked = true;
+                }
+            });
+            
+            // Calculate budget if there's data
+            if (document.getElementById('income').value) {
+                calculateBudget();
+            }
+        };
+        
+        // Add event listeners to all input fields to automatically save data
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    if (input.id === 'checking' || input.id === 'savings' || input.id === 'stocks' || input.id === 'property') {
+                        saveAssets();
+                    } else {
+                        calculateBudget();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

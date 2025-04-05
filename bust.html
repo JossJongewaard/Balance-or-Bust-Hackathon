@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balance or Bust</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --main-purple: #feb4ff;
+            --secondary-purple: #efdbf0;
+            --white: #ffffff;
+            --dark-purple: #d89cfc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--main-purple);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            padding: 15px;
+        }
+
+        /* Add background logo */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url('assets/logo.png') center/contain no-repeat;
+            opacity: 0.1;
+            z-index: -1;
+            animation: crazyLogoPulse 3s infinite ease-in-out;
+        }
+
+        @keyframes crazyLogoPulse {
+            0% { 
+                transform: scale(1) rotate(0deg); 
+                opacity: 0.05;
+                filter: hue-rotate(0deg);
+            }
+            25% {
+                transform: scale(1.2) rotate(5deg);
+                opacity: 0.15;
+                filter: hue-rotate(90deg);
+            }
+            50% {
+                transform: scale(1) rotate(-5deg);
+                opacity: 0.1;
+                filter: hue-rotate(180deg);
+            }
+            75% {
+                transform: scale(1.1) rotate(5deg);
+                opacity: 0.15;
+                filter: hue-rotate(270deg);
+            }
+            100% { 
+                transform: scale(1) rotate(0deg); 
+                opacity: 0.05;
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        .container {
+            max-width: 100%;
+            height: 100vh;
+            margin: 0 auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        h1 {
+            color: var(--white);
+            font-size: 3rem;
+            text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 0, 0, 0.5),
+                0 0 40px rgba(255, 0, 0, 0.3);
+            margin: 0;
+            text-align: center;
+            font-weight: bold;
+            letter-spacing: 2px;
+            animation: panicText 0.5s infinite;
+        }
+
+        @keyframes panicText {
+            0% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(-2px, 3px) scale(1.02); }
+            50% { transform: translate(2px, -2px) scale(0.98); }
+            75% { transform: translate(-3px, -3px) scale(1.02); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        .alarm-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .alarm-group.left {
+            justify-content: flex-start;
+        }
+
+        .alarm-group.right {
+            justify-content: flex-end;
+        }
+
+        .alarm {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            animation: alarmSpin 2s infinite linear;
+        }
+
+        .alarm::before, .alarm::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .alarm::before {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.8) 0%, rgba(255, 0, 0, 0.6) 40%, rgba(255, 0, 0, 0.4) 60%, rgba(255, 0, 0, 0.2) 80%, transparent);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            animation: alarmGlow 1s infinite alternate;
+        }
+
+        .alarm::after {
+            width: 200px;
+            height: 200px;
+            background: 
+                conic-gradient(
+                    from 45deg at 50% 50%,
+                    transparent 0deg,
+                    transparent 80deg,
+                    rgba(255, 0, 0, 0.2) 85deg,
+                    rgba(255, 0, 0, 0.3) 90deg,
+                    rgba(255, 0, 0, 0.2) 95deg,
+                    transparent 100deg,
+                    transparent 170deg,
+                    rgba(255, 0, 0, 0.2) 175deg,
+                    rgba(255, 0, 0, 0.3) 180deg,
+                    rgba(255, 0, 0, 0.2) 185deg,
+                    transparent 190deg,
+                    transparent 260deg,
+                    rgba(255, 0, 0, 0.2) 265deg,
+                    rgba(255, 0, 0, 0.3) 270deg,
+                    rgba(255, 0, 0, 0.2) 275deg,
+                    transparent 280deg,
+                    transparent 350deg,
+                    rgba(255, 0, 0, 0.2) 355deg,
+                    rgba(255, 0, 0, 0.3) 360deg
+                );
+            animation: alarmRotate 2s linear infinite;
+        }
+
+        .alarm-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes alarmSpin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes alarmGlow {
+            from {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        }
+
+        @keyframes alarmRotate {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .info-section {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 15px;
+            width: 90%;
+            max-width: 1200px;
+            position: relative;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .pulsating-text {
+            color: #ff0000;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 
+                0 0 10px rgba(255, 0, 0, 0.3),
+                0 0 20px rgba(255, 0, 0, 0.2);
+            animation: enhancedPulseText 1s infinite;
+            position: absolute;
+            margin: 0;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .pulsating-text.left {
+            left: 100px;
+        }
+
+        .pulsating-text.right {
+            right: 100px;
+            max-width: 150px;
+        }
+
+        .money-box {
+            background-color: var(--main-purple);
+            padding: 15px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.1),
+                0 0 20px rgba(255, 0, 0, 0.3);
+            z-index: 1;
+            animation: urgentPulse 1s infinite;
+        }
+
+        @keyframes urgentPulse {
+            0% { transform: scale(1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 0, 0, 0.3); }
+            50% { transform: scale(1.03); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 30px rgba(255, 0, 0, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 0, 0, 0.3); }
+        }
+
+        .money-box h2 {
+            color: var(--white);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .balance {
+            color: var(--white);
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .timer-container {
+            background-color: var(--white);
+            padding: 8px 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 280px;
+        }
+
+        .timer-label {
+            color: #333;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .timer {
+            color: #ff0000;
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            animation: timerPanic 0.5s infinite;
+        }
+
+        @keyframes timerPanic {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 350px));
+            gap: 15px;
+            width: 95%;
+            max-width: 1500px;
+            margin-top: 10px;
+            justify-content: center;
+            align-items: start;
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+
+        .deal-item {
+            background-color: #4a4a4a;
+            aspect-ratio: 4/3;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            height: 220px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .deal-item:hover {
+            transform: scale(1.02);
+            animation: dealShake 0.3s infinite;
+        }
+
+        .image-container {
+            flex: 1;
+            background-color: #666;
+            width: 100%;
+            height: 140px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: var(--white);
+        }
+
+        .deal-info {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 5px;
+            color: var(--white);
+            text-align: center;
+        }
+
+        .deal-name {
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 0;
+            color: var(--white);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .deal-price {
+            font-size: 1.2rem;
+            color: var(--main-purple);
+            font-weight: bold;
+            margin: 2px 0;
+            text-shadow: 
+                0 0 10px rgba(254, 180, 255, 0.3),
+                0 0 20px rgba(254, 180, 255, 0.2);
+            animation: priceFlash 1s infinite;
+        }
+
+        @keyframes priceFlash {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); text-shadow: 0 0 20px rgba(254, 180, 255, 0.6); }
+            100% { transform: scale(1); }
+        }
+
+        .buy-now {
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(45deg, var(--main-purple), var(--dark-purple));
+            border: none;
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: buttonPulse 1s infinite;
+        }
+
+        @keyframes buttonPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(254, 180, 255, 0.5); }
+            100% { transform: scale(1); }
+        }
+
+        .coins {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .left-coins {
+            left: 0;
+            bottom: 20px;
+        }
+
+        .right-coins {
+            right: 20px;
+            bottom: 20px;
+        }
+
+        .left-top-coins {
+            left: -10px;
+            top: -10px;
+        }
+
+        .right-top-coins {
+            right: 20px;
+            top: 0;
+        }
+
+        .coin {
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, #ffd700 0%, #ffa500 100%);
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: 
+                0 0 10px #ffd700,
+                0 0 20px #ffa500,
+                inset 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: coinFloat 1.2s ease-out forwards;
+        }
+
+        @keyframes coinFloat {
+            0% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--travel-x), var(--travel-y)) rotate(var(--rotation)) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .left-coins .coin {
+            --travel-x: 150px;
+            --travel-y: -200px;
+            --rotation: 720deg;
+        }
+
+        .right-coins .coin {
+            --travel-x: -150px;
+            --travel-y: -200px;
+            --rotation: -720deg;
+        }
+
+        .times-up-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(255, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1000;
+        }
+
+        .times-up-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .x-mark {
+            font-size: 15rem;
+            color: var(--white);
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            animation: scaleIn 0.5s ease forwards;
+            transform: scale(0);
+        }
+
+        .times-up-text {
+            font-size: 4rem;
+            color: var(--white);
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+            margin-top: -2rem;
+            opacity: 0;
+            animation: fadeIn 0.5s ease 0.3s forwards;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes floatLeft {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        @keyframes floatRight {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(-10deg); }
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes pulseText {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Update responsive breakpoints for wider grid */
+        @media (max-width: 1400px) {
+            .deals-grid {
+                grid-template-columns: repeat(3, minmax(0, 300px));
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .deals-grid {
+                grid-template-columns: repeat(2, minmax(0, 350px));
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .deals-grid {
+                grid-template-columns: repeat(2, minmax(0, 280px));
+                gap: 10px;
+            }
+            
+            .deal-item {
+                height: 190px;
+            }
+            
+            .image-container {
+                height: 110px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .deals-grid {
+                grid-template-columns: minmax(0, 300px);
+                gap: 10px;
+            }
+            
+            .deal-item {
+                height: 180px;
+            }
+            
+            .image-container {
+                height: 100px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .info-section {
+                padding: 10px;
+            }
+            
+            .timer-container {
+                width: 250px;
+                padding: 6px 20px;
+            }
+        }
+
+        .intro-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(255, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: flashBackground 0.5s infinite;
+            transition: opacity 1s ease;
+        }
+
+        .intro-text {
+            color: var(--white);
+            font-size: 5rem;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 
+                0 0 20px rgba(255, 255, 255, 0.8),
+                0 0 40px rgba(255, 255, 255, 0.4);
+            animation: pulseIntro 0.5s infinite alternate;
+        }
+
+        @keyframes flashBackground {
+            0% { background-color: rgba(255, 0, 0, 0.3); }
+            50% { background-color: rgba(255, 0, 0, 0.8); }
+            100% { background-color: rgba(255, 0, 0, 0.3); }
+        }
+
+        @keyframes pulseIntro {
+            from { 
+                transform: scale(1);
+                text-shadow: 
+                    0 0 20px rgba(255, 255, 255, 0.8),
+                    0 0 40px rgba(255, 255, 255, 0.4);
+            }
+            to { 
+                transform: scale(1.1);
+                text-shadow: 
+                    0 0 30px rgba(255, 255, 255, 1),
+                    0 0 60px rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        .deal-item.sold {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .deal-item.sold .image-container::after {
+            content: 'SOLD OUT';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            background-color: rgba(255, 0, 0, 0.8);
+            color: var(--white);
+            padding: 5px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 1;
+        }
+
+        .deal-item.sold .buy-now {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .bust-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(255,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .bust-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .bust-logo {
+            width: 200px;
+            height: 200px;
+            background: url('assets/logo.png') center/contain no-repeat;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 20px #ff0000);
+            animation: bustLogoShake 0.5s infinite alternate;
+        }
+
+        @keyframes bustLogoShake {
+            0% { 
+                transform: translateX(-10px) rotate(-5deg);
+                filter: drop-shadow(0 0 20px #ff0000);
+            }
+            100% { 
+                transform: translateX(10px) rotate(5deg);
+                filter: drop-shadow(0 0 30px #ff0000);
+            }
+        }
+
+        .bust-text {
+            font-size: 10rem;
+            color: var(--white);
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+            animation: scaleIn 0.5s ease forwards, shake 0.5s ease infinite;
+            transform: scale(0);
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            z-index: 3;
+        }
+
+        .amount-owed {
+            font-size: 4rem;
+            color: var(--white);
+            font-weight: bold;
+            text-shadow: 0 0 15px rgba(255,255,255,0.8);
+            animation: fadeIn 0.5s ease 0.3s forwards;
+            opacity: 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            z-index: 3;
+        }
+
+        .back-to-balance {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, var(--main-purple), var(--dark-purple));
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .back-to-balance:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, var(--dark-purple), var(--main-purple));
+        }
+
+        .bust-coins {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bust-coin {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 30% 30%, #f0c674, #f0a500);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(240,198,116,0.7), 0 0 30px rgba(240,198,116,0.5);
+            animation: bustCoinFloat 1.5s ease-out forwards;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        @keyframes bustCoinFloat {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+            20% {
+                transform: translate(-50%, -50%) scale(1.2) rotate(var(--rotation));
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0.8) rotate(var(--rotation));
+                opacity: 0;
+            }
+        }
+
+        @keyframes dealShake {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1.02); }
+            25% { transform: translate(2px, 2px) rotate(0.5deg) scale(1.02); }
+            50% { transform: translate(-2px, -1px) rotate(-0.5deg) scale(1.02); }
+            75% { transform: translate(-1px, 2px) rotate(0.5deg) scale(1.02); }
+            100% { transform: translate(0, 0) rotate(0deg) scale(1.02); }
+        }
+
+        /* Add chaotic money rain */
+        .money-rain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .money-bill {
+            position: fixed;
+            width: 120px;
+            height: 60px;
+            background: url('assets/money.png') center/contain no-repeat;
+            opacity: 0.7;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+        }
+
+        @keyframes moneyFallA {
+            0% {
+                transform: translateY(-100px) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.7;
+                transform: translateY(15vh) rotate(180deg) scale(0.9) translateX(50px);
+            }
+            50% {
+                transform: translateY(50vh) rotate(360deg) scale(0.85) translateX(-50px);
+            }
+            85% {
+                opacity: 0.7;
+                transform: translateY(85vh) rotate(540deg) scale(0.8) translateX(25px);
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px)) rotate(720deg) scale(0.7);
+                opacity: 0;
+            }
+        }
+
+        @keyframes moneyFallB {
+            0% {
+                transform: translateY(-100px) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7;
+                transform: translateY(20vh) rotate(-180deg) scale(0.9) translateX(-100px);
+            }
+            60% {
+                transform: translateY(60vh) rotate(-360deg) scale(0.85) translateX(100px);
+            }
+            90% {
+                opacity: 0.7;
+                transform: translateY(85vh) rotate(-540deg) scale(0.8) translateX(-50px);
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px)) rotate(-720deg) scale(0.7);
+                opacity: 0;
+            }
+        }
+
+        @keyframes moneyFallC {
+            0% {
+                transform: translateY(-100px) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            25% {
+                opacity: 0.7;
+                transform: translateY(25vh) rotate(90deg) scale(0.9) translateX(150px);
+            }
+            65% {
+                transform: translateY(65vh) rotate(270deg) scale(0.85) translateX(-150px);
+            }
+            90% {
+                opacity: 0.7;
+                transform: translateY(85vh) rotate(450deg) scale(0.8) translateX(75px);
+            }
+            100% {
+                transform: translateY(calc(100vh + 100px)) rotate(540deg) scale(0.7);
+                opacity: 0;
+            }
+        }
+
+        /* Add purchase explosion effect */
+        .purchase-money {
+            position: absolute;
+            width: 80px;
+            height: 40px;
+            background: url('assets/money.png') center/contain no-repeat;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes purchaseExplode {
+            0% {
+                transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: 
+                    translate(
+                        calc(-50% + var(--explode-x)), 
+                        calc(-50% + var(--explode-y))
+                    )
+                    scale(1.2)
+                    rotate(var(--explode-rotate));
+                opacity: 0;
+            }
+        }
+
+        /* Wheel Icon */
+        .wheel-icon {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            background: url('assets/wheel-icon.png') center/contain no-repeat;
+            cursor: pointer;
+            z-index: 9999;
+            filter: drop-shadow(0 0 20px gold);
+            animation: wheelAppear 2s ease-in-out forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wheel-icon::after {
+            content: "Click\A TO\A Spin";
+            white-space: pre;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 
+                0 0 5px #ff0000,
+                0 0 10px #ff0000,
+                0 0 15px #ff0000,
+                0 0 20px #ff0000;
+            margin-top: 0px;
+            line-height: 1.8;
+            animation: textPulse 1s infinite alternate;
+        }
+
+        @keyframes textPulse {
+            0% { 
+                opacity: 0.7; 
+                transform: scale(0.9);
+                text-shadow: 
+                    0 0 5px #ff0000,
+                    0 0 10px #ff0000,
+                    0 0 15px #ff0000;
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1.1);
+                text-shadow: 
+                    0 0 10px #ff0000,
+                    0 0 20px #ff0000,
+                    0 0 30px #ff0000,
+                    0 0 40px #ff0000;
+            }
+        }
+
+        @keyframes wheelAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            20% {
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+            }
+            40%, 80% {
+                opacity: 1;
+                transform: scale(1) rotate(360deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) rotate(720deg);
+            }
+        }
+
+        /* Wheel Popup */
+        .wheel-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .wheel-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .wheel-overlay.active .wheel-container {
+            transform: scale(1);
+        }
+
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                #ff4444 0deg 90deg,  /* 30- Seconds */
+                #44ff44 90deg 180deg,  /* Free Car */
+                #4444ff 180deg 270deg,  /* 30+ Seconds */
+                #ffff44 270deg 360deg  /* Nothing */
+            );
+            position: relative;
+            box-shadow: 
+                0 0 30px rgba(255, 255, 255, 0.3),
+                0 0 60px rgba(255, 215, 0, 0.3),
+                0 0 100px rgba(255, 69, 0, 0.2);
+            border: 10px solid gold;
+            transform: rotate(0deg);
+            transition: transform 5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+
+        .wheel.spinning {
+            transform: rotate(var(--final-rotation));
+        }
+
+        .wheel-section {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            left: 25%;
+            transform-origin: 50% 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 30px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .wheel-arrow {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-top: 40px solid #ffd700;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+            z-index: 1;
+        }
+
+        /* Position wheel sections */
+        .wheel-section:nth-child(1) { transform: rotate(45deg); }
+        .wheel-section:nth-child(2) { transform: rotate(135deg); }
+        .wheel-section:nth-child(3) { transform: rotate(225deg); }
+        .wheel-section:nth-child(4) { transform: rotate(315deg); }
+
+        .wheel-result {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: white;
+            text-shadow: 
+                0 0 20px gold,
+                0 0 40px gold,
+                0 0 60px gold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            animation: resultPulse 0.5s infinite;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 5px solid gold;
+            box-shadow: 
+                0 0 20px gold,
+                0 0 40px gold,
+                0 0 60px gold;
+        }
+
+        .wheel-result.show {
+            opacity: 1;
+            animation: resultPulse 0.5s infinite, resultScale 0.5s infinite alternate;
+        }
+
+        @keyframes resultPulse {
+            0% { text-shadow: 0 0 20px gold, 0 0 40px gold, 0 0 60px gold; }
+            50% { text-shadow: 0 0 30px gold, 0 0 60px gold, 0 0 90px gold; }
+            100% { text-shadow: 0 0 20px gold, 0 0 40px gold, 0 0 60px gold; }
+        }
+
+        @keyframes resultScale {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-overlay">
+        <h1 class="intro-text">READY TO BUST?</h1>
+    </div>
+
+    <div class="header">
+        <div class="alarm-group left">
+            <div class="alarm">
+                <img src="assets/Red alarm.png" alt="Alarm" class="alarm-image">
+            </div>
+            <div class="alarm">
+                <img src="assets/Red alarm.png" alt="Alarm" class="alarm-image">
+            </div>
+            <div class="alarm">
+                <img src="assets/Red alarm.png" alt="Alarm" class="alarm-image">
+            </div>
+        </div>
+        <h1>!!! BALANCE OR BUST !!!</h1>
+        <div class="alarm-group right">
+            <div class="alarm">
+                <img src="assets/Red alarm.png" alt="Alarm" class="alarm-image">
+            </div>
+            <div class="alarm">
+                <img src="assets/Red alarm.png" alt="Alarm" class="alarm-image">
+            </div>
+            <div class="alarm">
+                <img src="assets/Red alarm.png" alt="Alarm" class="alarm-image">
+            </div>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <p class="pulsating-text left">SAVE 50%</p>
+        <div class="money-box">
+            <h2>Total Balance</h2>
+            <p class="balance" id="total-balance">$0.00</p>
+        </div>
+        <p class="pulsating-text right">LIMITED TIME<br>OFFER!!!</p>
+    </div>
+
+    <div class="timer-container">
+        <p class="timer-label">Time Remaining:</p>
+        <p class="timer" id="timer">1:00</p>
+    </div>
+
+    <div class="deals-grid">
+        <div class="deal-item">
+            <div class="image-container">
+                <img src="assets/deal1.png" alt="TV">
+            </div>
+            <div class="deal-info">
+                <h3 class="deal-name">TV</h3>
+                <p class="deal-price">$249.99</p>
+            </div>
+            <button class="buy-now">BUY NOW</button>
+        </div>
+        <div class="deal-item">
+            <div class="image-container">
+                <img src="assets/deal2.png" alt="Gorrilla Couch">
+            </div>
+            <div class="deal-info">
+                <h3 class="deal-name">Gorrilla Couch</h3>
+                <p class="deal-price">$399.99</p>
+            </div>
+            <button class="buy-now">BUY NOW</button>
+        </div>
+        <div class="deal-item">
+            <div class="image-container">
+                <img src="assets/deal3.png" alt="Wing Stop">
+            </div>
+            <div class="deal-info">
+                <h3 class="deal-name">Wing Stop</h3>
+                <p class="deal-price">$19.99</p>
+            </div>
+            <button class="buy-now">BUY NOW</button>
+        </div>
+        <div class="deal-item">
+            <div class="image-container">
+                <img src="assets/deal4.png" alt="Aziazon Ice Tea">
+            </div>
+            <div class="deal-info">
+                <h3 class="deal-name">Aziazon Ice Tea</h3>
+                <p class="deal-price">$0.50</p>
+            </div>
+            <button class="buy-now">BUY NOW</button>
+        </div>
+        <div class="deal-item">
+            <div class="image-container">
+                <img src="assets/deal5.png" alt="Iron Suit">
+            </div>
+            <div class="deal-info">
+                <h3 class="deal-name">Iron Suit</h3>
+                <p class="deal-price">$599.99</p>
+            </div>
+            <button class="buy-now">BUY NOW</button>
+        </div>
+        <div class="deal-item">
+            <div class="image-container">
+                <img src="assets/deal6.png" alt="Hairless Cat">
+            </div>
+            <div class="deal-info">
+                <h3 class="deal-name">Hairless Cat</h3>
+                <p class="deal-price">$999.99</p>
+            </div>
+            <button class="buy-now">BUY NOW</button>
+        </div>
+    </div>
+
+    <div class="coins left-coins"></div>
+    <div class="coins right-coins"></div>
+
+    <div class="times-up-overlay">
+        <div class="x-mark">X</div>
+        <div class="times-up-text">TIME'S UP!</div>
+        <button class="back-to-balance">Back To Balance</button>
+    </div>
+
+    <div class="bust-overlay">
+        <div class="bust-logo"></div>
+        <div class="bust-text">BUSTED</div>
+        <div class="amount-owed">You owe us $0.00</div>
+        <div class="bust-coins"></div>
+        <button class="back-to-balance">Back To Balance</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Intro overlay functionality
+            const introOverlay = document.querySelector('.intro-overlay');
+            
+            // Remove intro overlay after 3 seconds
+            setTimeout(() => {
+                introOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    introOverlay.style.display = 'none';
+                }, 1000); // Wait for fade out animation
+            }, 3000); // Changed from 5000 to 3000 for 3 seconds
+
+            // Timer functionality
+            const timerElement = document.querySelector('.timer');
+            const timesUpOverlay = document.querySelector('.times-up-overlay');
+            let timeLeft = 60; // 1 minute in seconds
+
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft === 0) {
+                    clearInterval(timerInterval);
+                    showTimesUpOverlay();
+                }
+                timeLeft--;
+            }
+
+            function showTimesUpOverlay() {
+                timesUpOverlay.classList.add('active');
+                // Add a subtle shake effect to the whole page
+                document.body.style.animation = 'shake 0.5s ease';
+                
+                // Clear wheel icons when times up screen shows
+                clearWheelIcons();
+            }
+
+            const timerInterval = setInterval(updateTimer, 1000);
+            updateTimer(); // Initial call
+
+            // Purchase functionality
+            const balanceElement = document.querySelector('.balance');
+            let currentBalance = 0; // Initialize to 0, will be set from localStorage
+
+            function updateBalance(newBalance) {
+                currentBalance = newBalance;
+                balanceElement.textContent = `$${newBalance.toFixed(2)}`;
+                
+                // Add red flash effect if balance is low
+                if (newBalance < 100) {
+                    balanceElement.style.color = '#ff0000';
+                    balanceElement.style.animation = 'pulse 0.5s infinite';
+                }
+                
+                // Save the updated balance to localStorage
+                saveUpdatedBalanceToLocalStorage(newBalance);
+            }
+            
+            // Function to save the updated balance to localStorage
+            function saveUpdatedBalanceToLocalStorage(newBalance) {
+                try {
+                    // Get the existing budget data
+                    const budgetData = JSON.parse(localStorage.getItem('budgetData')) || {};
+                    
+                    // Update the balance in the budget data
+                    budgetData.updatedBalance = newBalance;
+                    
+                    // Save the updated budget data back to localStorage
+                    localStorage.setItem('budgetData', JSON.stringify(budgetData));
+                    
+                    console.log('Updated balance saved to localStorage:', newBalance);
+                } catch (error) {
+                    console.error('Error saving updated balance:', error);
+                }
+            }
+
+            // Load budget data from localStorage
+            function loadBudgetData() {
+                try {
+                    const budgetData = JSON.parse(localStorage.getItem('budgetData')) || {};
+                    
+                    // Calculate total balance from income and assets
+                    const income = budgetData.income || 0;
+                    const checking = budgetData.checking || 0;
+                    const savings = budgetData.savings || 0;
+                    const stocks = budgetData.stocks || 0;
+                    const property = budgetData.property || 0;
+                    
+                    // Calculate total assets
+                    const totalAssets = checking + savings + stocks + property;
+                    
+                    // Set current balance to income + total assets
+                    const totalBalance = income + totalAssets;
+                    updateBalance(totalBalance);
+                    
+                    // Scale item prices based on the total balance
+                    scaleItemPrices(totalBalance);
+                    
+                    console.log('Loaded budget data:', budgetData);
+                    console.log('Total balance set to:', totalBalance);
+                } catch (error) {
+                    console.error('Error loading budget data:', error);
+                    // Set a default balance if there's an error
+                    updateBalance(1000.00);
+                    scaleItemPrices(1000.00);
+                }
+            }
+            
+            // Function to scale item prices based on total balance
+            function scaleItemPrices(totalBalance) {
+                // Base prices for a $1000 balance
+                const basePrices = {
+                    'TV': 249.99,
+                    'Gorrilla Couch': 399.99,
+                    'Wing Stop': 19.99,
+                    'Aziazon Ice Tea': 0.50,
+                    'Iron Suit': 599.99,
+                    'Hairless Cat': 999.99
+                };
+                
+                // Base balance for scaling
+                const baseBalance = 1000.00;
+                
+                // Calculate scaling factor
+                const scalingFactor = totalBalance / baseBalance;
+                
+                // Update prices for all items
+                const dealItems = document.querySelectorAll('.deal-item');
+                dealItems.forEach(item => {
+                    const nameElement = item.querySelector('.deal-name');
+                    const priceElement = item.querySelector('.deal-price');
+                    const itemName = nameElement.textContent;
+                    
+                    if (basePrices[itemName]) {
+                        // Calculate scaled price
+                        const scaledPrice = basePrices[itemName] * scalingFactor;
+                        
+                        // Update price display
+                        priceElement.textContent = `$${scaledPrice.toFixed(2)}`;
+                        
+                        // Store the scaled price as a data attribute for purchase calculations
+                        item.dataset.price = scaledPrice;
+                    }
+                });
+            }
+
+            // Call loadBudgetData when the page loads
+            loadBudgetData();
+
+            // Buy Now button functionality
+            const buyButtons = document.querySelectorAll('.buy-now');
+            buyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const dealItem = button.closest('.deal-item');
+                    const priceElement = dealItem.querySelector('.deal-price');
+                    
+                    // Get price from data attribute if available, otherwise parse from text
+                    let price;
+                    if (dealItem.dataset.price) {
+                        price = parseFloat(dealItem.dataset.price);
+                    } else {
+                        price = parseFloat(priceElement.textContent.replace('$', ''));
+                    }
+
+                    // Create explosion effect before marking as sold
+                    createPurchaseExplosion(dealItem);
+
+                    // Deduct price from balance
+                    const newBalance = currentBalance - price;
+                    updateBalance(newBalance);
+
+                    // Mark item as sold
+                    dealItem.classList.add('sold');
+                    button.textContent = 'SOLD OUT';
+
+                    // Add purchase effect
+                    dealItem.style.animation = 'pulse 0.5s';
+                    setTimeout(() => {
+                        dealItem.style.animation = '';
+                    }, 500);
+                    
+                    // If balance is negative, show BUST screen
+                    if (newBalance < 0) {
+                        showBustScreen(newBalance);
+                    }
+                });
+            });
+
+            // Create floating coins
+            function createCoinsGroup(container, position) {
+                const numCoins = 5;
+                const baseDelay = 100;
+                
+                for (let i = 0; i < numCoins; i++) {
+                    setTimeout(() => {
+                        const coin = document.createElement('div');
+                        coin.className = 'coin';
+                        
+                        // Random starting position within the container
+                        const startX = Math.random() * 50 - 25;
+                        const startY = Math.random() * 50 - 25;
+                        coin.style.left = `calc(50% + ${startX}px)`;
+                        coin.style.top = `calc(50% + ${startY}px)`;
+                        
+                        // Calculate center-ward movement based on position
+                        let centerX, centerY;
+                        switch(position) {
+                            case 'left-bottom':
+                                centerX = 150;
+                                centerY = -200;
+                                break;
+                            case 'right-bottom':
+                                centerX = -150;
+                                centerY = -200;
+                                break;
+                            case 'left-top':
+                                centerX = 150;
+                                centerY = 200;
+                                break;
+                            case 'right-top':
+                                centerX = -150;
+                                centerY = 200;
+                                break;
+                        }
+                        
+                        const randomOffset = 50;
+                        const travelX = centerX + (Math.random() * randomOffset * 2 - randomOffset);
+                        const travelY = centerY + (Math.random() * randomOffset * 2 - randomOffset);
+                        const rotation = (position.includes('left') ? 1 : -1) * (360 + Math.random() * 720);
+                        
+                        coin.style.setProperty('--travel-x', `${travelX}px`);
+                        coin.style.setProperty('--travel-y', `${travelY}px`);
+                        coin.style.setProperty('--rotation', `${rotation}deg`);
+                        
+                        container.appendChild(coin);
+                        
+                        // Remove coin after animation
+                        setTimeout(() => {
+                            coin.remove();
+                        }, 1200);
+                    }, i * baseDelay);
+                }
+            }
+
+            function animateCoins() {
+                const leftBottomContainer = document.querySelector('.left-coins');
+                const rightBottomContainer = document.querySelector('.right-coins');
+                
+                // Create top corner containers
+                const leftTopContainer = document.createElement('div');
+                leftTopContainer.className = 'coins left-top-coins';
+                document.body.appendChild(leftTopContainer);
+                
+                const rightTopContainer = document.createElement('div');
+                rightTopContainer.className = 'coins right-top-coins';
+                document.body.appendChild(rightTopContainer);
+                
+                // Create initial groups for all corners
+                createCoinsGroup(leftBottomContainer, 'left-bottom');
+                createCoinsGroup(rightBottomContainer, 'right-bottom');
+                createCoinsGroup(leftTopContainer, 'left-top');
+                createCoinsGroup(rightTopContainer, 'right-top');
+                
+                // Continue creating new groups
+                setInterval(() => {
+                    createCoinsGroup(leftBottomContainer, 'left-bottom');
+                    createCoinsGroup(rightBottomContainer, 'right-bottom');
+                    createCoinsGroup(leftTopContainer, 'left-top');
+                    createCoinsGroup(rightTopContainer, 'right-top');
+                }, 800);
+            }
+
+            animateCoins();
+
+            function createBustCoins() {
+                const bustCoins = document.querySelector('.bust-coins');
+                bustCoins.innerHTML = '';
+                
+                // Create more coins for a more dramatic effect
+                for (let i = 0; i < 100; i++) {
+                    const coin = document.createElement('div');
+                    coin.className = 'bust-coin';
+                    
+                    // Random position and rotation with wider spread
+                    const tx = (Math.random() - 0.5) * 2000; // Wider horizontal spread
+                    const ty = (Math.random() - 0.5) * 2000; // Wider vertical spread
+                    const rotation = (Math.random() - 0.5) * 1080; // More rotation
+                    
+                    coin.style.setProperty('--tx', `${tx}px`);
+                    coin.style.setProperty('--ty', `${ty}px`);
+                    coin.style.setProperty('--rotation', `${rotation}deg`);
+                    
+                    // Random starting position in the center
+                    coin.style.left = '50%';
+                    coin.style.top = '50%';
+                    
+                    // Random size for variety
+                    const size = 20 + Math.random() * 40;
+                    coin.style.width = `${size}px`;
+                    coin.style.height = `${size}px`;
+                    
+                    // Random delay for staggered animation
+                    coin.style.animationDelay = `${Math.random() * 0.5}s`;
+                    
+                    bustCoins.appendChild(coin);
+                }
+            }
+
+            function clearWheelIcons() {
+                // Clear the spawn interval
+                if (window.wheelSpawnInterval) {
+                    clearInterval(window.wheelSpawnInterval);
+                    window.wheelSpawnInterval = null;
+                }
+                
+                // Remove any existing wheel icons
+                const wheelIcons = document.querySelectorAll('.wheel-icon');
+                wheelIcons.forEach(icon => icon.remove());
+            }
+
+            function showBustScreen(amountOwed) {
+                const bustOverlay = document.querySelector('.bust-overlay');
+                const amountOwedElement = document.querySelector('.amount-owed');
+                
+                // Update the amount owed text
+                amountOwedElement.textContent = `You owe us $${Math.abs(amountOwed).toFixed(2)}`;
+                
+                createBustCoins();
+                bustOverlay.classList.add('active');
+                
+                // Clear wheel icons when bust screen shows
+                clearWheelIcons();
+            }
+
+            // Modify the buyItem function to allow negative balance
+            function buyItem(price) {
+                // Always deduct the price
+                currentBalance -= price;
+                updateBalance(currentBalance);
+                
+                // If balance is negative, show BUST screen
+                if (currentBalance < 0) {
+                    showBustScreen(currentBalance);
+                }
+                
+                return true;
+            }
+
+            // Add event listeners for Back To Balance buttons
+            document.querySelectorAll('.back-to-balance').forEach(button => {
+                button.addEventListener('click', () => {
+                    // Navigate to the balance mode page
+                    window.location.href = 'balance_mode.html';
+                });
+            });
+
+            function createMoneyRain() {
+                const moneyRain = document.createElement('div');
+                moneyRain.className = 'money-rain';
+                document.body.appendChild(moneyRain);
+
+                function createBill() {
+                    const bill = document.createElement('div');
+                    bill.className = 'money-bill';
+                    
+                    // Random pattern selection
+                    const patterns = ['moneyFallA', 'moneyFallB', 'moneyFallC'];
+                    const pattern = patterns[Math.floor(Math.random() * patterns.length)];
+                    
+                    // Even distribution across screen width
+                    const xPos = Math.random() * 100;
+                    bill.style.left = xPos + 'vw';
+                    
+                    // Slightly faster animation duration for more dynamic movement
+                    const duration = 3 + Math.random() * 2;
+                    bill.style.animation = `${pattern} ${duration}s linear forwards`;
+                    
+                    // Random size variation
+                    const scale = 0.7 + Math.random() * 0.6;
+                    bill.style.transform = `scale(${scale})`;
+                    
+                    moneyRain.appendChild(bill);
+                    
+                    // Clean up bills after animation
+                    bill.addEventListener('animationend', () => bill.remove());
+                }
+
+                // Create initial batch of bills
+                for (let i = 0; i < 25; i++) {
+                    setTimeout(() => {
+                        createBill();
+                    }, i * 100); // Stagger initial creation
+                }
+
+                // Create bills more frequently
+                function spawnBills() {
+                    // Create 2-3 bills at once for maintaining density
+                    const billCount = Math.floor(Math.random() * 2) + 2;
+                    for (let i = 0; i < billCount; i++) {
+                        setTimeout(createBill, i * 50);
+                    }
+                }
+
+                // Spawn new bills every 200ms to maintain density
+                setInterval(spawnBills, 200);
+            }
+
+            // Start the money rain
+            createMoneyRain();
+
+            function createPurchaseExplosion(element) {
+                const rect = element.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                // Create 10 bills that explode outward
+                for (let i = 0; i < 10; i++) {
+                    const bill = document.createElement('div');
+                    bill.className = 'purchase-money';
+                    
+                    // Position at the center of the purchased item
+                    bill.style.left = centerX + 'px';
+                    bill.style.top = centerY + 'px';
+                    
+                    // Calculate random explosion direction
+                    const angle = (i * 36 + Math.random() * 20 - 10) * (Math.PI / 180);
+                    const distance = 100 + Math.random() * 100;
+                    const explodeX = Math.cos(angle) * distance;
+                    const explodeY = Math.sin(angle) * distance;
+                    
+                    // Set custom properties for the animation
+                    bill.style.setProperty('--explode-x', explodeX + 'px');
+                    bill.style.setProperty('--explode-y', explodeY + 'px');
+                    bill.style.setProperty('--explode-rotate', (Math.random() * 720 - 360) + 'deg');
+                    
+                    // Add animation
+                    bill.style.animation = 'purchaseExplode 1s ease-out forwards';
+                    
+                    document.body.appendChild(bill);
+                    
+                    // Clean up after animation
+                    setTimeout(() => bill.remove(), 1000);
+                }
+            }
+
+            function createWheelSystem() {
+                // Create wheel overlay
+                const wheelOverlay = document.createElement('div');
+                wheelOverlay.className = 'wheel-overlay';
+                document.body.appendChild(wheelOverlay);
+
+                const wheelContainer = document.createElement('div');
+                wheelContainer.className = 'wheel-container';
+                wheelOverlay.appendChild(wheelContainer);
+
+                // Create wheel
+                const wheel = document.createElement('div');
+                wheel.className = 'wheel';
+                wheelContainer.appendChild(wheel);
+
+                // Add wheel sections
+                const sections = ['30- Seconds', 'Free Car*', '30+ Seconds', 'NOTHING!'];
+                sections.forEach(text => {
+                    const section = document.createElement('div');
+                    section.className = 'wheel-section';
+                    section.textContent = text;
+                    wheel.appendChild(section);
+                });
+
+                // Add arrow
+                const arrow = document.createElement('div');
+                arrow.className = 'wheel-arrow';
+                wheelContainer.appendChild(arrow);
+
+                // Add result display
+                const result = document.createElement('div');
+                result.className = 'wheel-result';
+                wheelContainer.appendChild(result);
+
+                // Function to spawn wheel icon
+                function spawnWheelIcon() {
+                    const icon = document.createElement('div');
+                    icon.className = 'wheel-icon';
+                    
+                    // Random position (keeping away from edges)
+                    const x = Math.random() * (window.innerWidth - 150) + 75;
+                    const y = Math.random() * (window.innerHeight - 150) + 75;
+                    
+                    icon.style.left = x + 'px';
+                    icon.style.top = y + 'px';
+                    
+                    // Click handler
+                    icon.addEventListener('click', () => {
+                        icon.remove();
+                        spinWheel();
+                        // Clear any existing spawn intervals
+                        if (window.wheelSpawnInterval) {
+                            clearInterval(window.wheelSpawnInterval);
+                        }
+                    });
+                    
+                    document.body.appendChild(icon);
+
+                    // Remove the icon after 2 seconds
+                    setTimeout(() => {
+                        if (icon && icon.parentNode) {
+                            icon.remove();
+                        }
+                    }, 2000);
+                }
+
+                // Function to spin wheel
+                function spinWheel() {
+                    wheelOverlay.classList.add('active');
+                    
+                    // Randomly select one of the four sections (0-3)
+                    const selectedSection = Math.floor(Math.random() * 4);
+                    
+                    // Calculate the angle to land on the selected section
+                    // The arrow is at the top (0 degrees)
+                    // We need to rotate the wheel so the selected section is at the top
+                    // Since the sections are positioned at 45, 135, 225, and 315 degrees,
+                    // we need to rotate the wheel by the negative of the section's position
+                    // to bring it to the top
+                    const sectionAngle = -(selectedSection * 90 + 45);
+                    
+                    // Add multiple full rotations (5-10) plus the section angle
+                    const rotations = 5 + Math.floor(Math.random() * 5);
+                    const totalDegrees = rotations * 360 + sectionAngle;
+                    
+                    // Reset any existing transform
+                    wheel.style.transform = '';
+                    
+                    // Set the final rotation as a CSS variable
+                    wheel.style.setProperty('--final-rotation', `${totalDegrees}deg`);
+                    wheel.classList.add('spinning');
+                    
+                    // After spin completes
+                    setTimeout(() => {
+                        // Use the selected section directly
+                        handleResult(sections[selectedSection]);
+                    }, 5000);
+                }
+
+                // Function to handle spin result
+                function handleResult(result) {
+                    const resultDisplay = wheelContainer.querySelector('.wheel-result');
+                    resultDisplay.textContent = result;
+                    resultDisplay.classList.add('show');
+                    
+                    // Play celebration effect if it's a good result
+                    if (result === '30+ Seconds' || result === 'Free Car*') {
+                        createPurchaseExplosion(wheelContainer);
+                    }
+                    
+                    setTimeout(() => {
+                        wheelOverlay.classList.remove('active');
+                        resultDisplay.classList.remove('show');
+                        wheel.classList.remove('spinning');
+                        wheel.style.transform = '';
+                        
+                        // Handle time modifications
+                        if (result === '30+ Seconds') {
+                            timeLeft += 30;
+                            updateTimer();
+                        } else if (result === '30- Seconds') {
+                            timeLeft = Math.max(0, timeLeft - 30);
+                            updateTimer();
+                        } else if (result === 'Free Car*') {
+                            alert('You won a free car! (Terms and conditions apply)');
+                        }
+
+                        // Remove the wheel overlay after result
+                        setTimeout(() => {
+                            wheelOverlay.remove();
+                        }, 1000);
+                    }, 3000);
+                }
+
+                // Start spawning wheel icons after 3 seconds
+                setTimeout(() => {
+                    spawnWheelIcon(); // Spawn first icon
+                    window.wheelSpawnInterval = setInterval(spawnWheelIcon, 2000); // Spawn new icon every 2 seconds
+                }, 3000);
+            }
+
+            // Start the wheel system
+            createWheelSystem();
+        });
+    </script>
+</body>
+</html> 
