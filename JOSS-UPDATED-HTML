@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Your Budgeting Goals!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            height: 100%;
+            background-color: white;
+            color: #555;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #A8E6CF; /* Mint Green */
+            color: white;
+            border-bottom: 3px solid #4C9B8C; /* Darker Green */
+            animation: fadeIn 1s ease-out;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background-color: #4C9B8C; /* Darker Green */
+            padding: 12px 40px;
+            border-radius: 8px;
+            display: inline-block;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .content-section {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Form and Card Styles */
+        .budget-form, .interests-section {
+            background: #A8E6CF; /* Mint Green */
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .budget-form h3, .interests-section h3 {
+            color: white;
+            background-color: #4C9B8C; /* Darker Green */
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+        label {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="number"], input[type="checkbox"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            border-color: #4C9B8C; /* Darker Green */
+            outline: none;
+            box-shadow: 0 0 10px rgba(76, 155, 140, 0.5);
+        }
+
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(145deg, #66BB6A, #388E3C); /* Green Gradient */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        button:hover {
+            background: linear-gradient(145deg, #388E3C, #66BB6A); /* Lighter Green on hover */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Interests Section */
+        .interests-section label {
+            display: inline-block;
+            margin: 5px 10px;
+        }
+
+        /* Summary Box */
+        #summary {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        /* CSS Animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .main-content {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Start Your Budgeting Goals!</h1>
+        <p class="subtitle">Your Financial Planning Partner</p>
+    </header>
+
+    <main class="content-section">
+        <!-- Budget Form Section -->
+        <section class="budget-form">
+            <h3>Budget Calculator for the Month</h3>
+            <form id="budgetForm">
+                <label for="income">Total Income: $</label>
+                <input type="number" id="income" name="income" step="0.01">
+
+                <label for="rent">Rent: $</label>
+                <input type="number" id="rent" name="rent" step="0.01">
+
+                <label for="food">Food: $</label>
+                <input type="number" id="food" name="food" step="0.01">
+
+                <label for="entertainment">Entertainment: $</label>
+                <input type="number" id="entertainment" name="entertainment" step="0.01">
+
+                <label for="transport">Transport: $</label>
+                <input type="number" id="transport" name="transport" step="0.01">
+
+                <label for="retirement">Retirement: $</label>
+                <input type="number" id="retirement" name="retirement" step="0.01">
+
+                <label for="saving">Saving: $</label>
+                <input type="number" id="saving" name="saving" step="0.01">
+
+                <label for="other">Other: $</label>
+                <input type="number" id="other" name="other" step="0.01">
+
+                <button type="button" onclick="calculateBudget()">Calculate Budget</button>
+            </form>
+        </section>
+
+        <!-- Interests Section -->
+        <section class="interests-section">
+            <h3>Select Your Interests</h3>
+            <form id="interests-form">
+                <label><input type="checkbox" name="interests" value="furniture"> Furniture</label>
+                <label><input type="checkbox" name="interests" value="food"> Food</label>
+                <label><input type="checkbox" name="interests" value="costumes"> Costumes</label>
+                <label><input type="checkbox" name="interests" value="technology"> Technology</label>
+                <label><input type="checkbox" name="interests" value="music"> Music</label>
+                <label><input type="checkbox" name="interests" value="gaming"> Gaming</label>
+                <label><input type="checkbox" name="interests" value="sports"> Sports</label>
+                <label><input type="checkbox" name="interests" value="travel"> Travel</label>
+                <label><input type="checkbox" name="interests" value="reading"> Reading</label>
+                <label><input type="checkbox" name="interests" value="pets"> Pets</label>
+                <br><br>
+                <button type="button" onclick="showInterests()">Submit Interests</button>
+            </form>
+        </section>
+
+        <!-- Summary Box -->
+        <div id="summary">Fill in the values and click "Calculate Budget".</div>
+    </main>
+
+    <script>
+        function calculateBudget() {
+            const income = parseFloat(document.getElementById('income').value) || 0;
+            const rent = parseFloat(document.getElementById('rent').value) || 0;
+            const food = parseFloat(document.getElementById('food').value) || 0;
+            const entertainment = parseFloat(document.getElementById('entertainment').value) || 0;
+            const transport = parseFloat(document.getElementById('transport').value) || 0;
+            const retirement = parseFloat(document.getElementById('retirement').value) || 0;
+            const saving = parseFloat(document.getElementById('saving').value) || 0;
+            const other = parseFloat(document.getElementById('other').value) || 0;
+
+            const totalExpenses = rent + food + entertainment + transport + retirement + saving + other;
+            const remaining = income - totalExpenses;
+
+            document.getElementById('summary').textContent = `
+                Total Expenses: $${totalExpenses.toFixed(2)} | 
+                Remaining Budget: $${remaining.toFixed(2)}
+            `;
+        }
+
+        function showInterests() {
+            const checkboxes = document.querySelectorAll('input[name="interests"]:checked');
+            const selected = Array.from(checkboxes).map(cb => cb.value);
+            alert("Your selected interests are: " + selected.join(", "));
+        }
+    </script>
+
+</body>
+</html>
