@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balance Mode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif; /* Applying Poppins font globally */
+            height: 100%;
+            background-color: white; /* Set background to white */
+            color: #555; /* Softer gray for text */
+        }
+
+        /* Header Section: Balance Mode Title */
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #e1b7ff; /* Lighter Purple background */
+            color: white;
+            border-bottom: 3px solid #d89cfc; /* Subtle border for professionalism */
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Title Box for Balance Mode */
+        h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background-color: #c58fff; /* Darker purple */
+            padding: 12px 40px;
+            border-radius: 8px;
+            display: inline-block;
+            max-width: 80%; /* Limit the width */
+            word-wrap: break-word;
+        }
+
+        /* Subtitle for Welcome Home */
+        h2 {
+            margin: 10px 0;
+            font-size: 1.8rem;
+            color: #666; /* Softer gray */
+            font-weight: 400;
+        }
+
+        /* Main Content Grid (4 Squares) */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Panel Title Styling */
+        .panel-title {
+            background-color: #c58fff; /* Slightly darker purple */
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 20px;
+            width: 100%; /* Make the title box span the full width of the panel */
+            box-sizing: border-box; /* Ensure padding doesn't affect width calculation */
+        }
+
+        /* Top Left: My Account */
+        .my-account {
+            background-color: #e1b7ff; /* Light Purple */
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .my-account label {
+            display: block;
+            margin: 12px 0 5px;
+            color: #666; /* Softer gray for labels */
+            font-size: 1rem;
+        }
+
+        .my-account input {
+            width: 50%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .my-account input:focus {
+            border-color: #e1b7ff; /* Highlight with Light Purple */
+            outline: none;
+            box-shadow: 0 0 10px rgba(229, 183, 255, 0.5); /* Focus Effect */
+        }
+
+        /* Top Right: Upcoming Transactions */
+        .upcoming-transactions {
+            background-color: #e1b7ff; /* Light Purple */
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .upcoming-transactions ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .upcoming-transactions li {
+            margin: 15px 0;
+            font-size: 1.2rem;
+            color: #666; /* Softer gray */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .upcoming-transactions input {
+            width: 40%;
+            padding: 8px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .upcoming-transactions input:focus {
+            border-color: #e1b7ff;
+            outline: none;
+            box-shadow: 0 0 10px rgba(229, 183, 255, 0.5);
+        }
+
+        /* Bottom Left: Total Spent */
+        .total-spent {
+            background-color: #e1b7ff; /* Light Purple */
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .total-spent ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .total-spent li {
+            margin: 8px 0;
+            font-size: 1.2rem;
+            color: #666; /* Softer gray */
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        /* Bottom Right: Button Instead of Panel */
+        .ready-to-bust {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .ready-to-bust button {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            color: #fff;
+            background: linear-gradient(145deg, #f0c674, #f0a500); /* Shiny gold gradient */
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ready-to-bust button:hover {
+            background: linear-gradient(145deg, #f0a500, #f0c674); /* Inverted shiny gold gradient on hover */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .ready-to-bust button:focus {
+            outline: none;
+        }
+
+        /* Clean Background */
+        body {
+            background-color: white; /* Simple clean white background */
+        }
+
+        /* CSS Animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Balance Mode</h1>
+        <h2>Welcome Home</h2>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="grid-container">
+
+        <!-- Top Left: My Account -->
+        <div class="my-account">
+            <div class="panel-title">My Account</div>
+            <label for="checkings">Checkings:</label>
+            <input type="text" id="checkings" placeholder="$0.00">
+            <label for="savings">Savings:</label>
+            <input type="text" id="savings" placeholder="$0.00">
+            <label for="total">Total:</label>
+            <input type="text" id="total" placeholder="$0.00">
+        </div>
+
+        <!-- Top Right: Upcoming Transactions -->
+        <div class="upcoming-transactions">
+            <div class="panel-title">Upcoming Transactions</div>
+            <ul>
+                <li>Rent <input type="text" placeholder="$0.00"></li>
+                <li>Utilities <input type="text" placeholder="$0.00"></li>
+                <li>Car Payments <input type="text" placeholder="$0.00"></li>
+                <li>Streaming Platforms <input type="text" placeholder="$0.00"></li>
+            </ul>
+        </div>
+
+        <!-- Bottom Left: Total Spent -->
+        <div class="total-spent">
+            <div class="panel-title">Total Spent</div>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+
+        <!-- Bottom Right: Button Instead of Panel -->
+        <div class="ready-to-bust">
+            <button onclick="alert('Let\'s start!')">Ready to Bust?</button>
+        </div>
+
+    </div>
+
+</body>
+</html>
