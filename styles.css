@@ -36,6 +36,35 @@ body::before {
     background: url('assets/logo.png') center/contain no-repeat;
     opacity: 0.1;
     z-index: -1;
+    animation: crazyLogoPulse 3s infinite ease-in-out;
+}
+
+@keyframes crazyLogoPulse {
+    0% { 
+        transform: scale(1) rotate(0deg); 
+        opacity: 0.05;
+        filter: hue-rotate(0deg);
+    }
+    25% {
+        transform: scale(1.2) rotate(5deg);
+        opacity: 0.15;
+        filter: hue-rotate(90deg);
+    }
+    50% {
+        transform: scale(1) rotate(-5deg);
+        opacity: 0.1;
+        filter: hue-rotate(180deg);
+    }
+    75% {
+        transform: scale(1.1) rotate(5deg);
+        opacity: 0.15;
+        filter: hue-rotate(270deg);
+    }
+    100% { 
+        transform: scale(1) rotate(0deg); 
+        opacity: 0.05;
+        filter: hue-rotate(360deg);
+    }
 }
 
 .container {
@@ -59,37 +88,128 @@ body::before {
 h1 {
     color: var(--white);
     font-size: 3.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 
+        2px 2px 4px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(255, 0, 0, 0.5),
+        0 0 40px rgba(255, 0, 0, 0.3);
     margin: 0;
     text-align: center;
     font-weight: bold;
     letter-spacing: 2px;
+    animation: panicText 0.5s infinite;
+}
+
+@keyframes panicText {
+    0% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(-2px, 3px) scale(1.02); }
+    50% { transform: translate(2px, -2px) scale(0.98); }
+    75% { transform: translate(-3px, -3px) scale(1.02); }
+    100% { transform: translate(0, 0) scale(1); }
 }
 
 .alarm-group {
     display: flex;
-    flex-direction: row;
-    gap: 5px;
-}
-
-.alarm {
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle at center, #ff0000 0%, #990000 100%);
-    border-radius: 50%;
-    box-shadow: 
-        0 0 10px #ff0000,
-        0 0 20px #ff0000,
-        inset 0 0 20px rgba(255, 255, 255, 0.5);
-    animation: pulse 2s infinite;
+    gap: 10px;
+    align-items: center;
 }
 
 .alarm-group.left {
-    justify-content: flex-end;
+    justify-content: flex-start;
 }
 
 .alarm-group.right {
-    justify-content: flex-start;
+    justify-content: flex-end;
+}
+
+.alarm {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    animation: alarmSpin 2s infinite linear;
+}
+
+.alarm::before, .alarm::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.alarm::before {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 0, 0, 0.8) 0%, rgba(255, 0, 0, 0.6) 40%, rgba(255, 0, 0, 0.4) 60%, rgba(255, 0, 0, 0.2) 80%, transparent);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+    animation: alarmGlow 1s infinite alternate;
+}
+
+.alarm::after {
+    width: 200px;
+    height: 200px;
+    background: 
+        conic-gradient(
+            from 45deg at 50% 50%,
+            transparent 0deg,
+            transparent 80deg,
+            rgba(255, 0, 0, 0.2) 85deg,
+            rgba(255, 0, 0, 0.3) 90deg,
+            rgba(255, 0, 0, 0.2) 95deg,
+            transparent 100deg,
+            transparent 170deg,
+            rgba(255, 0, 0, 0.2) 175deg,
+            rgba(255, 0, 0, 0.3) 180deg,
+            rgba(255, 0, 0, 0.2) 185deg,
+            transparent 190deg,
+            transparent 260deg,
+            rgba(255, 0, 0, 0.2) 265deg,
+            rgba(255, 0, 0, 0.3) 270deg,
+            rgba(255, 0, 0, 0.2) 275deg,
+            transparent 280deg,
+            transparent 350deg,
+            rgba(255, 0, 0, 0.2) 355deg,
+            rgba(255, 0, 0, 0.3) 360deg
+        );
+    animation: alarmRotate 2s linear infinite;
+}
+
+.alarm-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes alarmSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes alarmGlow {
+    from {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+@keyframes alarmRotate {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }
 
 .info-section {
@@ -110,8 +230,10 @@ h1 {
     color: #ff0000;
     font-size: 2rem;
     font-weight: bold;
-    text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-    animation: pulseText 1.5s infinite;
+    text-shadow: 
+        0 0 10px rgba(255, 0, 0, 0.3),
+        0 0 20px rgba(255, 0, 0, 0.2);
+    animation: enhancedPulseText 1s infinite;
     position: absolute;
     margin: 0;
     text-align: center;
@@ -132,8 +254,17 @@ h1 {
     padding: 15px 30px;
     border-radius: 15px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.1),
+        0 0 20px rgba(255, 0, 0, 0.3);
     z-index: 1;
+    animation: urgentPulse 1s infinite;
+}
+
+@keyframes urgentPulse {
+    0% { transform: scale(1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 0, 0, 0.3); }
+    50% { transform: scale(1.03); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), 0 0 30px rgba(255, 0, 0, 0.5); }
+    100% { transform: scale(1); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 0 20px rgba(255, 0, 0, 0.3); }
 }
 
 .money-box h2 {
@@ -166,10 +297,18 @@ h1 {
 }
 
 .timer {
-    color: #333;
+    color: #ff0000;
     font-size: 2.2rem;
     font-weight: bold;
     margin: 0;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    animation: timerPanic 0.5s infinite;
+}
+
+@keyframes timerPanic {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
 .deals-grid {
@@ -199,6 +338,7 @@ h1 {
 
 .deal-item:hover {
     transform: scale(1.02);
+    animation: dealShake 0.3s infinite;
 }
 
 .image-container {
@@ -239,7 +379,16 @@ h1 {
     color: var(--main-purple);
     font-weight: bold;
     margin: 2px 0;
-    text-shadow: 0 0 10px rgba(254, 180, 255, 0.3);
+    text-shadow: 
+        0 0 10px rgba(254, 180, 255, 0.3),
+        0 0 20px rgba(254, 180, 255, 0.2);
+    animation: priceFlash 1s infinite;
+}
+
+@keyframes priceFlash {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); text-shadow: 0 0 20px rgba(254, 180, 255, 0.6); }
+    100% { transform: scale(1); }
 }
 
 .buy-now {
@@ -252,12 +401,13 @@ h1 {
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
+    animation: buttonPulse 1s infinite;
 }
 
-.buy-now:hover {
-    background: linear-gradient(45deg, var(--dark-purple), var(--main-purple));
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+@keyframes buttonPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(254, 180, 255, 0.5); }
+    100% { transform: scale(1); }
 }
 
 .coins {
@@ -269,7 +419,7 @@ h1 {
 }
 
 .left-coins {
-    left: 20px;
+    left: 0;
     bottom: 20px;
 }
 
@@ -278,63 +428,50 @@ h1 {
     bottom: 20px;
 }
 
+.left-top-coins {
+    left: -10px;
+    top: -10px;
+}
+
+.right-top-coins {
+    right: 20px;
+    top: 0;
+}
+
 .coin {
-    position: absolute;
     width: 30px;
     height: 30px;
-    background: radial-gradient(circle at 30% 30%, #f0c674, #f0a500);
+    background: radial-gradient(circle at 30% 30%, #ffd700 0%, #ffa500 100%);
     border-radius: 50%;
+    position: absolute;
     box-shadow: 
-        0 0 15px rgba(240, 198, 116, 0.7),
-        0 0 30px rgba(240, 198, 116, 0.3);
-    animation: coinFloat 0.8s ease-out forwards;
+        0 0 10px #ffd700,
+        0 0 20px #ffa500,
+        inset 0 0 10px rgba(255, 255, 255, 0.8);
+    animation: coinFloat 1.2s ease-out forwards;
 }
 
 @keyframes coinFloat {
     0% {
-        transform: translate(0, 0) rotate(0deg);
+        transform: translate(0, 0) rotate(0deg) scale(1);
         opacity: 1;
     }
     100% {
-        transform: translate(var(--tx), var(--ty)) rotate(var(--rotation));
+        transform: translate(var(--travel-x), var(--travel-y)) rotate(var(--rotation)) scale(0.5);
         opacity: 0;
     }
 }
 
-.left-coins .coin:nth-child(3n) {
-    --tx: 150px;
-    --ty: -150px;
-    --rotation: 360deg;
+.left-coins .coin {
+    --travel-x: 150px;
+    --travel-y: -200px;
+    --rotation: 720deg;
 }
 
-.left-coins .coin:nth-child(3n + 1) {
-    --tx: 100px;
-    --ty: -50px;
-    --rotation: 180deg;
-}
-
-.left-coins .coin:nth-child(3n + 2) {
-    --tx: 50px;
-    --ty: -200px;
-    --rotation: 540deg;
-}
-
-.right-coins .coin:nth-child(3n) {
-    --tx: -150px;
-    --ty: -150px;
-    --rotation: -360deg;
-}
-
-.right-coins .coin:nth-child(3n + 1) {
-    --tx: -100px;
-    --ty: -50px;
-    --rotation: -180deg;
-}
-
-.right-coins .coin:nth-child(3n + 2) {
-    --tx: -50px;
-    --ty: -200px;
-    --rotation: -540deg;
+.right-coins .coin {
+    --travel-x: -150px;
+    --travel-y: -200px;
+    --rotation: -720deg;
 }
 
 .times-up-overlay {
@@ -520,4 +657,454 @@ h1 {
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+}
+
+.bust-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(255,0,0,0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+.bust-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bust-logo {
+    width: 200px;
+    height: 200px;
+    background: url('assets/logo.png') center/contain no-repeat;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 20px #ff0000);
+    animation: bustLogoShake 0.5s infinite alternate;
+}
+
+@keyframes bustLogoShake {
+    0% { 
+        transform: translateX(-10px) rotate(-5deg);
+        filter: drop-shadow(0 0 20px #ff0000);
+    }
+    100% { 
+        transform: translateX(10px) rotate(5deg);
+        filter: drop-shadow(0 0 30px #ff0000);
+    }
+}
+
+.bust-text {
+    font-size: 10rem;
+    color: var(--white);
+    font-weight: bold;
+    text-shadow: 0 0 20px rgba(255,255,255,0.8);
+    animation: scaleIn 0.5s ease forwards, shake 0.5s ease infinite;
+    transform: scale(0);
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    z-index: 3;
+}
+
+.amount-owed {
+    font-size: 4rem;
+    color: var(--white);
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(255,255,255,0.8);
+    animation: fadeIn 0.5s ease 0.3s forwards;
+    opacity: 0;
+    text-align: center;
+    margin-bottom: 2rem;
+    z-index: 3;
+}
+
+.back-to-balance {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    background: linear-gradient(45deg, var(--main-purple), var(--dark-purple));
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.back-to-balance:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    background: linear-gradient(45deg, var(--dark-purple), var(--main-purple));
+}
+
+.bust-coins {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.bust-coin {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle at 30% 30%, #f0c674, #f0a500);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(240,198,116,0.7), 0 0 30px rgba(240,198,116,0.5);
+    animation: bustCoinFloat 1.5s ease-out forwards;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+@keyframes bustCoinFloat {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+        opacity: 1;
+    }
+    20% {
+        transform: translate(-50%, -50%) scale(1.2) rotate(var(--rotation));
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0.8) rotate(var(--rotation));
+        opacity: 0;
+    }
+}
+
+@keyframes dealShake {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1.02); }
+    25% { transform: translate(2px, 2px) rotate(0.5deg) scale(1.02); }
+    50% { transform: translate(-2px, -1px) rotate(-0.5deg) scale(1.02); }
+    75% { transform: translate(-1px, 2px) rotate(0.5deg) scale(1.02); }
+    100% { transform: translate(0, 0) rotate(0deg) scale(1.02); }
+}
+
+/* Add chaotic money rain */
+.money-rain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.money-bill {
+    position: fixed;
+    width: 120px;
+    height: 60px;
+    background: url('assets/money.png') center/contain no-repeat;
+    opacity: 0.7;
+    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.4));
+}
+
+@keyframes moneyFallA {
+    0% {
+        transform: translateY(-100px) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.7;
+        transform: translateY(15vh) rotate(180deg) scale(0.9) translateX(50px);
+    }
+    50% {
+        transform: translateY(50vh) rotate(360deg) scale(0.85) translateX(-50px);
+    }
+    85% {
+        opacity: 0.7;
+        transform: translateY(85vh) rotate(540deg) scale(0.8) translateX(25px);
+    }
+    100% {
+        transform: translateY(calc(100vh + 100px)) rotate(720deg) scale(0.7);
+        opacity: 0;
+    }
+}
+
+@keyframes moneyFallB {
+    0% {
+        transform: translateY(-100px) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.7;
+        transform: translateY(20vh) rotate(-180deg) scale(0.9) translateX(-100px);
+    }
+    60% {
+        transform: translateY(60vh) rotate(-360deg) scale(0.85) translateX(100px);
+    }
+    90% {
+        opacity: 0.7;
+        transform: translateY(85vh) rotate(-540deg) scale(0.8) translateX(-50px);
+    }
+    100% {
+        transform: translateY(calc(100vh + 100px)) rotate(-720deg) scale(0.7);
+        opacity: 0;
+    }
+}
+
+@keyframes moneyFallC {
+    0% {
+        transform: translateY(-100px) rotate(0deg) scale(1);
+        opacity: 0;
+    }
+    25% {
+        opacity: 0.7;
+        transform: translateY(25vh) rotate(90deg) scale(0.9) translateX(150px);
+    }
+    65% {
+        transform: translateY(65vh) rotate(270deg) scale(0.85) translateX(-150px);
+    }
+    90% {
+        opacity: 0.7;
+        transform: translateY(85vh) rotate(450deg) scale(0.8) translateX(75px);
+    }
+    100% {
+        transform: translateY(calc(100vh + 100px)) rotate(540deg) scale(0.7);
+        opacity: 0;
+    }
+}
+
+/* Add purchase explosion effect */
+.purchase-money {
+    position: absolute;
+    width: 80px;
+    height: 40px;
+    background: url('assets/money.png') center/contain no-repeat;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes purchaseExplode {
+    0% {
+        transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: 
+            translate(
+                calc(-50% + var(--explode-x)), 
+                calc(-50% + var(--explode-y))
+            )
+            scale(1.2)
+            rotate(var(--explode-rotate));
+        opacity: 0;
+    }
+}
+
+/* Wheel Icon */
+.wheel-icon {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    background: url('assets/wheel-icon.png') center/contain no-repeat;
+    cursor: pointer;
+    z-index: 9999;
+    filter: drop-shadow(0 0 20px gold);
+    animation: wheelAppear 2s ease-in-out forwards;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.wheel-icon::after {
+    content: "Click\A TO\A Spin";
+    white-space: pre;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 
+        0 0 5px #ff0000,
+        0 0 10px #ff0000,
+        0 0 15px #ff0000,
+        0 0 20px #ff0000;
+    margin-top: 0px;
+    line-height: 1.8;
+    animation: textPulse 1s infinite alternate;
+}
+
+@keyframes textPulse {
+    0% { 
+        opacity: 0.7; 
+        transform: scale(0.9);
+        text-shadow: 
+            0 0 5px #ff0000,
+            0 0 10px #ff0000,
+            0 0 15px #ff0000;
+    }
+    100% { 
+        opacity: 1; 
+        transform: scale(1.1);
+        text-shadow: 
+            0 0 10px #ff0000,
+            0 0 20px #ff0000,
+            0 0 30px #ff0000,
+            0 0 40px #ff0000;
+    }
+}
+
+@keyframes wheelAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    20% {
+        opacity: 1;
+        transform: scale(1.2) rotate(180deg);
+    }
+    40%, 80% {
+        opacity: 1;
+        transform: scale(1) rotate(360deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5) rotate(720deg);
+    }
+}
+
+/* Wheel Popup */
+.wheel-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.wheel-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.wheel-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.wheel-overlay.active .wheel-container {
+    transform: scale(1);
+}
+
+.wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        #ff4444 0deg 90deg,  /* 30- Seconds */
+        #44ff44 90deg 180deg,  /* Free Car */
+        #4444ff 180deg 270deg,  /* 30+ Seconds */
+        #ffff44 270deg 360deg  /* Nothing */
+    );
+    position: relative;
+    box-shadow: 
+        0 0 30px rgba(255, 255, 255, 0.3),
+        0 0 60px rgba(255, 215, 0, 0.3),
+        0 0 100px rgba(255, 69, 0, 0.2);
+    border: 10px solid gold;
+    transform: rotate(0deg);
+    transition: transform 5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+.wheel.spinning {
+    transform: rotate(var(--final-rotation));
+}
+
+.wheel-section {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    left: 25%;
+    transform-origin: 50% 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 30px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.wheel-arrow {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-top: 40px solid #ffd700;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+    z-index: 1;
+}
+
+/* Position wheel sections */
+.wheel-section:nth-child(1) { transform: rotate(45deg); }
+.wheel-section:nth-child(2) { transform: rotate(135deg); }
+.wheel-section:nth-child(3) { transform: rotate(225deg); }
+.wheel-section:nth-child(4) { transform: rotate(315deg); }
+
+.wheel-result {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: white;
+    text-shadow: 
+        0 0 20px gold,
+        0 0 40px gold,
+        0 0 60px gold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    animation: resultPulse 0.5s infinite;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    border: 5px solid gold;
+    box-shadow: 
+        0 0 20px gold,
+        0 0 40px gold,
+        0 0 60px gold;
+}
+
+.wheel-result.show {
+    opacity: 1;
+    animation: resultPulse 0.5s infinite, resultScale 0.5s infinite alternate;
+}
+
+@keyframes resultPulse {
+    0% { text-shadow: 0 0 20px gold, 0 0 40px gold, 0 0 60px gold; }
+    50% { text-shadow: 0 0 30px gold, 0 0 60px gold, 0 0 90px gold; }
+    100% { text-shadow: 0 0 20px gold, 0 0 40px gold, 0 0 60px gold; }
+}
+
+@keyframes resultScale {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    100% { transform: translate(-50%, -50%) scale(1.1); }
 } 
