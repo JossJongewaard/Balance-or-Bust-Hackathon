@@ -484,4 +484,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Start the wheel system
     createWheelSystem();
+<<<<<<< HEAD
 }); 
+=======
+}); 
+>>>>>>> c6a1a12da6753e332bfdb85c29631bcc7a5c71ca

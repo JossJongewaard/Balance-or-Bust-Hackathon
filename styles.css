@@ -1107,4 +1107,8 @@ h1 {
 @keyframes resultScale {
     0% { transform: translate(-50%, -50%) scale(1); }
     100% { transform: translate(-50%, -50%) scale(1.1); }
+<<<<<<< HEAD
 } 
+=======
+} 
+>>>>>>> c6a1a12da6753e332bfdb85c29631bcc7a5c71ca
