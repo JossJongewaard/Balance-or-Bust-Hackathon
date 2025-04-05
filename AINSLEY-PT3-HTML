@@ -12,17 +12,34 @@
             padding: 0;
             font-family: 'Poppins', sans-serif; /* Applying Poppins font globally */
             height: 100%;
-            background-color: white; /* Set background to white */
-            color: #555; /* Softer gray for text */
+            background-color: white;
+            background-image: url('logo.png');
+            background-size: contain;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #333; /* Changed text color to dark for better contrast on white */
+        }
+
+        /* Add a white overlay to ensure the background stays mostly white */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.92);
+            z-index: -1;
         }
 
         /* Header Section: Balance Mode Title */
         header {
             text-align: center;
             padding: 30px 20px;
-            background-color: #e1b7ff; /* Lighter Purple background */
+            background-color: rgba(61, 95, 78, 0.8); /* Changed to green */
             color: white;
-            border-bottom: 3px solid #d89cfc; /* Subtle border for professionalism */
+            border-bottom: 3px solid #3d5f4e; /* Changed to green */
             animation: fadeIn 1s ease-out;
         }
 
@@ -31,19 +48,20 @@
             margin: 0;
             font-size: 3.5rem;
             font-weight: 700;
-            background-color: #c58fff; /* Darker purple */
+            background-color: rgba(61, 95, 78, 0.9); /* Changed to green */
             padding: 12px 40px;
             border-radius: 8px;
             display: inline-block;
             max-width: 80%; /* Limit the width */
             word-wrap: break-word;
+            color: white;
         }
 
         /* Subtitle for Welcome Home */
         h2 {
             margin: 10px 0;
             font-size: 1.8rem;
-            color: #666; /* Softer gray */
+            color: white; /* Kept white for contrast on green */
             font-weight: 400;
         }
 
@@ -60,7 +78,7 @@
 
         /* Panel Title Styling */
         .panel-title {
-            background-color: #c58fff; /* Slightly darker purple */
+            background-color: rgba(61, 95, 78, 0.9); /* Changed to green */
             padding: 12px 20px;
             border-radius: 8px;
             color: white;
@@ -74,17 +92,17 @@
 
         /* Top Left: My Account */
         .my-account {
-            background-color: #e1b7ff; /* Light Purple */
+            background-color: rgba(61, 95, 78, 0.8); /* Changed to green */
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             animation: fadeIn 1s ease-out;
         }
 
         .my-account label {
             display: block;
             margin: 12px 0 5px;
-            color: #666; /* Softer gray for labels */
+            color: white; /* Kept white for contrast on green */
             font-size: 1rem;
         }
 
@@ -93,23 +111,25 @@
             padding: 10px;
             margin: 5px 0 15px;
             border-radius: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             font-size: 1rem;
             transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
         }
 
         .my-account input:focus {
-            border-color: #e1b7ff; /* Highlight with Light Purple */
+            border-color: #3d5f4e; /* Changed to green */
             outline: none;
-            box-shadow: 0 0 10px rgba(229, 183, 255, 0.5); /* Focus Effect */
+            box-shadow: 0 0 10px rgba(61, 95, 78, 0.5); /* Changed to green */
         }
 
         /* Top Right: Upcoming Transactions */
         .upcoming-transactions {
-            background-color: #e1b7ff; /* Light Purple */
+            background-color: rgba(61, 95, 78, 0.8); /* Changed to green */
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             animation: fadeIn 1s ease-out;
         }
 
@@ -121,7 +141,7 @@
         .upcoming-transactions li {
             margin: 15px 0;
             font-size: 1.2rem;
-            color: #666; /* Softer gray */
+            color: white; /* Kept white for contrast on green */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -132,22 +152,24 @@
             padding: 8px;
             font-size: 1rem;
             border-radius: 5px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
         }
 
         .upcoming-transactions input:focus {
-            border-color: #e1b7ff;
+            border-color: #3d5f4e; /* Changed to green */
             outline: none;
-            box-shadow: 0 0 10px rgba(229, 183, 255, 0.5);
+            box-shadow: 0 0 10px rgba(61, 95, 78, 0.5); /* Changed to green */
         }
 
         /* Bottom Left: Total Spent */
         .total-spent {
-            background-color: #e1b7ff; /* Light Purple */
+            background-color: rgba(61, 95, 78, 0.8); /* Changed to green */
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             animation: fadeIn 1s ease-out;
         }
 
@@ -159,8 +181,8 @@
         .total-spent li {
             margin: 8px 0;
             font-size: 1.2rem;
-            color: #666; /* Softer gray */
-            border-bottom: 1px solid #ddd;
+            color: white; /* Kept white for contrast on green */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             padding-bottom: 8px;
         }
 
@@ -177,7 +199,7 @@
             padding: 15px 30px;
             font-size: 1.5rem;
             color: #fff;
-            background: linear-gradient(145deg, #f0c674, #f0a500); /* Shiny gold gradient */
+            background: linear-gradient(145deg, #3d5f4e, #2d4f3e); /* Changed to green gradient */
             border: none;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -186,7 +208,7 @@
         }
 
         .ready-to-bust button:hover {
-            background: linear-gradient(145deg, #f0a500, #f0c674); /* Inverted shiny gold gradient on hover */
+            background: linear-gradient(145deg, #2d4f3e, #3d5f4e); /* Inverted green gradient on hover */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
@@ -194,9 +216,20 @@
             outline: none;
         }
 
-        /* Clean Background */
-        body {
-            background-color: white; /* Simple clean white background */
+        /* Navigation Link */
+        .nav-link {
+            display: inline-block;
+            margin: 10px;
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: rgba(61, 95, 78, 0.6); /* Changed to green */
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(61, 95, 78, 0.8); /* Changed to green */
         }
 
         /* CSS Animation */
@@ -226,6 +259,7 @@
     <header>
         <h1>Balance Mode</h1>
         <h2>Welcome Home</h2>
+        <a href="index.html" class="nav-link">Back to Home</a>
     </header>
 
     <!-- Main Content Grid -->
