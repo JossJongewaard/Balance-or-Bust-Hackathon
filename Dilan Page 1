@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Form</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #c58fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 800px;
+            height: 450px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .left {
+            flex: 1;
+            background-color: #e1b7ff;
+            color: purple;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .left h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .left p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .right {
+            flex: 1.5;
+            background-color: #f7f2f1;
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-group input {
+            width: 48%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group.full-width input {
+            width: 100%;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back {
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        .next {
+            background-color: #43353d;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="left">
+            <h1>Welcome!</h1>
+        </div>
+        <div class="right">
+            <h2>Balance Or Bust!</h2>
+            <form>
+                <div class="form-group">
+                    <div>
+                        <label for="firstname">First name</label>
+                        <input type="text" id="firstname" name="firstname">
+                    </div>
+                    <div>
+                        <label for="lastname">Last name</label>
+                        <input type="text" id="lastname" name="lastname">
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email">
+                </div>
+                <div class="form-group full-width">
+ 
+                    <label for="city">Password</label>
+                    <input type="text" id="password" name="password">
+                </div>
+                <div class="buttons">
+                    <button class="back" type="button">Back</button>
+                    <button class="next" type="submit">Next</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
