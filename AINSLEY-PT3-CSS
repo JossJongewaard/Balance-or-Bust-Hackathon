@@ -1,0 +1,239 @@
+/* Basic Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif; /* Elegant font globally */
+    height: 100%;
+    background-color: #fff; /* White background */
+    color: #555; /* Softer gray for text */
+}
+
+/* Header Section: Balance Mode Title */
+header {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #c58fff; /* Lighter Purple */
+    color: white;
+    border-bottom: 3px solid #d89cfc; /* Soft border below title */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow to make it stand out */
+}
+
+/* Title Box for Balance Mode */
+h1 {
+    margin: 0;
+    font-size: 4rem;
+    font-weight: 600;
+    background-color: #a47fff; /* Darker purple for contrast */
+    padding: 20px 50px;
+    border-radius: 12px;
+    display: inline-block;
+    max-width: 80%;
+    word-wrap: break-word;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Light shadow under title */
+}
+
+/* Subtitle for Welcome Home */
+h2 {
+    margin: 10px 0;
+    font-size: 2rem;
+    color: #666; /* Softer gray for text */
+    font-weight: 500;
+    letter-spacing: 0.05em; /* Add some space between characters */
+}
+
+/* Main Content Grid (4 Squares) */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 20px;
+    padding: 30px 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Panel Title Styling */
+.panel-title {
+    background-color: #a47fff; /* Darker Purple */
+    padding: 14px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    letter-spacing: 0.05em; /* Small spacing for refinement */
+}
+
+/* Top Left: My Account */
+.my-account {
+    background-color: #f7e6ff; /* Very light purple */
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: all 0.3s ease;
+}
+
+.my-account:hover {
+    transform: translateY(-5px); /* Hover effect for interactivity */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15); /* Deeper shadow on hover */
+}
+
+.my-account label {
+    display: block;
+    margin: 12px 0 5px;
+    color: #666;
+    font-size: 1rem;
+}
+
+.my-account input {
+    width: 50%;
+    padding: 12px;
+    margin: 5px 0 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.my-account input:focus {
+    border-color: #a47fff; /* Highlight with purple */
+    outline: none;
+    box-shadow: 0 0 10px rgba(164, 127, 255, 0.3); /* Soft glow on focus */
+}
+
+/* Top Right: Upcoming Transactions */
+.upcoming-transactions {
+    background-color: #f7e6ff; /* Light Purple */
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.upcoming-transactions:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.upcoming-transactions ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.upcoming-transactions li {
+    margin: 15px 0;
+    font-size: 1.2rem;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upcoming-transactions input {
+    width: 40%;
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+.upcoming-transactions input:focus {
+    border-color: #a47fff;
+    outline: none;
+    box-shadow: 0 0 10px rgba(164, 127, 255, 0.3);
+}
+
+/* Bottom Left: Total Spent */
+.total-spent {
+    background-color: #f7e6ff; /* Light Purple */
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.total-spent:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.total-spent ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.total-spent li {
+    margin: 8px 0;
+    font-size: 1.2rem;
+    color: #666;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+
+/* Bottom Right: Button Instead of Panel */
+.ready-to-bust {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    animation: fadeIn 1s ease-out;
+}
+
+.ready-to-bust button {
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    color: #fff;
+    background: linear-gradient(145deg, #f0c674, #f0a500); /* Shiny gold gradient */
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Glow effect on hover */
+.ready-to-bust button:hover {
+    background: linear-gradient(145deg, #f0a500, #f0c674); /* Inverted shiny gold gradient on hover */
+    box-shadow: 0 0 20px rgba(240, 166, 0, 0.7), 0 0 40px rgba(240, 166, 0, 0.6); /* Glow effect */
+    transform: scale(1.05); /* Slight scale up to make the button feel more interactive */
+}
+
+/* Focus effect */
+.ready-to-bust button:focus {
+    outline: none;
+    box-shadow: 0 0 20px rgba(240, 166, 0, 0.9); /* Stronger glow when focused */
+}
+
+/* Keyframe for FadeIn Effect */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .my-account input, .upcoming-transactions input {
+        width: 80%;
+    }
+
+    .ready-to-bust button {
+        font-size: 1.2rem;
+        padding: 12px 25px;
+    }
+}
