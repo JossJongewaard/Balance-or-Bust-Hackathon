@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Budget Paper</title>
+  <style>
+    /* Grid Layout for ads and content */
+    body {
+      display: grid;
+      grid-template-columns: 1fr 3fr 1fr; /* Three columns: ads on left and right, content in the middle */
+      gap: 20px; /* Space between columns */
+      background-color: #d89cfc;
+      color: #333333;
+      padding: 20px;
+    }
+
+    /* Sidebar for ads */
+    .sidebar {
+      background-color: #d89cfc;
+      padding: 15px;
+      border: 2px solid #ddd;
+      height: 100%; /* Makes sure the sidebar covers the entire height */
+      text-align: center; /* Centers the image */
+    }
+
+    .sidebar img {
+      width: 100%; /* Makes the image fill the sidebar */
+      height: auto; /* Maintain aspect ratio */
+      margin-bottom: 10px; /* Adds space below the image */
+    }
+
+    /* Main Content Area */
+    .content {
+      background-color: #fff;
+      padding: 20px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+    }
+
+    h1 {
+      font-size: 24px; /* Adjusted font size for better visibility */
+    }
+
+    h3 {
+      font-size: 20px; /* Adjusted font size for headers */
+    }
+
+    label {
+      font-size: 16px;
+      display: block; /* Makes sure labels are on their own line */
+      margin: 10px 0 5px 0; /* Space between labels and inputs */
+    }
+
+    input[type="number"] {
+      padding: 8px;
+      width: 100%; /* Make inputs take up full width of the container */
+      margin-bottom: 15px; /* Adds space between inputs */
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #4CAF50; /* Green background for button */
+      color: white; /* White text color */
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px; /* Adds space above button */
+    }
+
+    button:hover {
+      background-color: #45a049; /* Darker green when hovering */
+    }
+
+    #summary {
+      font-weight: bold;
+      color: #00cc66;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar"> <!-- Left Sidebar for Ads -->
+    <h3>Ad Space</h3>
+    <img src="file:///C:/Users/jossb/Downloads/left-sidebar-ad.png" alt="Left Sidebar Ad">
+    <p>Here is where your ad can go. Use this space to promote things!</p>
+  </div>
+
+  <div class="content"> <!-- Main Content Area -->
+    <h1>Start your Budget Goals</h1>
+
+    <form id="budgetForm">
+      <h3>Income</h3>
+      <label for="income">Total Income: $</label>
+      <input type="number" id="income" name="income" step="0.01">
+
+      <h3>Expenses</h3>
+      <label for="rent">Rent: $</label>
+      <input type="number" id="rent" name="rent" step="0.01">
+
+      <label for="food">Food: $</label>
+      <input type="number" id="food" name="food" step="0.01">
+
+      <label for="entertainment">Entertainment: $</label>
+      <input type="number" id="entertainment" name="entertainment" step="0.01">
+
+      <label for="transport">Transport: $</label>
+      <input type="number" id="transport" name="transport" step="0.01">
+
+      <label for="retirement">Retirement: $</label>
+      <input type="number" id="retirement" name="retirement" step="0.01">
+
+      <label for="saving">Saving: $</label>
+      <input type="number" id="saving" name="saving" step="0.01">
+
+      <label for="other">Other: $</label>
+      <input type="number" id="other" name="other" step="0.01">
+
+      <button type="button" onclick="calculateBudget()">Calculate</button>
+    </form>
+
+    <h3>Select All That Apply:</h3>
+    <form id="interests-form">
+      <label><input type="checkbox" name="interests" value="music"> Music</label><br>
+      <label><input type="checkbox" name="interests" value="gaming"> Gaming</label><br>
+      <label><input type="checkbox" name="interests" value="sports"> Sports</label><br>
+      <label><input type="checkbox" name="interests" value="travel"> Travel</label><br>
+      <label><input type="checkbox" name="interests" value="reading"> Reading</label><br>
+      <label><input type="checkbox" name="interests" value="pets"> Pets</label><br><br>
+
+      <button type="button" onclick="showInterests()">Submit Interests</button>
+    </form>
+
+    <h3>Summary</h3>
+    <p id="summary">Fill in the values and click "Calculate".</p>
+  </div>
+
+  <div class="sidebar"> <!-- Right Sidebar for Ads -->
+    <h3>Ad Space</h3>
+    <img src="right-sidebar-ad.jpg" alt="Right Sidebar Ad">
+    <p>Here is where your ad can go. Use this space to promote things!</p>
+  </div>
+
+  <script>
+    function calculateBudget() {
+      const income = parseFloat(document.getElementById('income').value) || 0;
+      const rent = parseFloat(document.getElementById('rent').value) || 0;
+      const food = parseFloat(document.getElementById('food').value) || 0;
+      const entertainment = parseFloat(document.getElementById('entertainment').value) || 0;
+      const transport = parseFloat(document.getElementById('transport').value) || 0;
+      const retirement = parseFloat(document.getElementById('retirement').value) || 0;
+      const saving = parseFloat(document.getElementById('saving').value) || 0;
+      const other = parseFloat(document.getElementById('other').value) || 0;
+
+      const totalExpenses = rent + food + entertainment + transport + retirement + saving + other;
+      const remaining = income - totalExpenses;
+
+      document.getElementById('summary').textContent = `
+        Total Expenses: $${totalExpenses.toFixed(2)} | 
+        Remaining Budget: $${remaining.toFixed(2)}
+      `;
+    }
+
+    function showInterests() {
+      const checkboxes = document.querySelectorAll('input[name="interests"]:checked');
+      const selected = Array.from(checkboxes).map(cb => cb.value);
+      alert("Your selected interests are: " + selected.join(", "));
+    }
+  </script>
+</body>
+</html>
